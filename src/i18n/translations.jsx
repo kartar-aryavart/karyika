@@ -1,11 +1,9 @@
 // 🌐 i18n — Hindi & English translations for Karyika
-
 export const translations = {
   en: {
     // App
     appName: "Karyika",
     appTagline: "Your Productivity Companion",
-
     // Nav
     dashboard: "Dashboard",
     tasks: "Tasks",
@@ -16,7 +14,6 @@ export const translations = {
     settings: "Settings",
     matrix: "Priority Matrix",
     projects: "Projects",
-
     // Auth
     login: "Login",
     signup: "Sign Up",
@@ -32,7 +29,6 @@ export const translations = {
     haveAccount: "Already have an account?",
     signUpLink: "Sign Up",
     loginLink: "Login",
-
     // Dashboard
     greeting_morning: "Good Morning",
     greeting_afternoon: "Good Afternoon",
@@ -50,7 +46,6 @@ export const translations = {
     habitRate: "Habit Rate",
     allCaughtUp: "All caught up! Great work 🎉",
     pendingMessage: "pending tasks today — let's go! 💪",
-
     // Tasks
     addTask: "+ Add Task",
     editTask: "Edit Task",
@@ -102,7 +97,6 @@ export const translations = {
     weekly: "Weekly",
     monthly: "Monthly",
     weekdays: "Weekdays (Mon-Fri)",
-
     // Habits
     habitTracker: "Habit Tracker",
     habitSubtitle: "Track daily habits & build streaks",
@@ -112,10 +106,8 @@ export const translations = {
     emoji: "Emoji",
     color: "Color",
     streak: "streak",
-    thisWeek: "this week",
     noHabits: "No habits yet",
     startTracking: "Start tracking a good habit!",
-
     // Notes
     newNote: "+ New Note",
     noteTitle: "Title",
@@ -125,7 +117,6 @@ export const translations = {
     noNotes: "No notes yet",
     startWriting: "Start writing your first note!",
     searchNotes: "Search notes...",
-
     // Timer
     focus: "Focus",
     shortBreak: "Short Break",
@@ -142,7 +133,6 @@ export const translations = {
     cafe: "Café ☕",
     waves: "Waves 🌊",
     off: "Off",
-
     // Settings
     appearance: "Appearance",
     darkMode: "Dark Mode",
@@ -159,7 +149,6 @@ export const translations = {
     export: "Export",
     aboutApp: "About Karyika",
     profile: "Profile",
-
     // Matrix
     matrixTitle: "Eisenhower Matrix",
     matrixSubtitle: "Prioritize by urgency & importance",
@@ -171,13 +160,11 @@ export const translations = {
     q3Sub: "Urgent & Not Important",
     q4: "Eliminate",
     q4Sub: "Not Urgent & Not Important",
-
     // Kanban
     kanbanTitle: "Kanban Board",
     todo: "To Do",
     inProgress: "In Progress",
     done: "Done",
-
     // Common
     save: "Save",
     cancel: "Cancel",
@@ -188,12 +175,10 @@ export const translations = {
     loading: "Loading...",
     saving: "Saving...",
   },
-
   hi: {
     // App
     appName: "Karyika",
     appTagline: "आपका उत्पादकता साथी",
-
     // Nav
     dashboard: "डैशबोर्ड",
     tasks: "कार्य",
@@ -204,7 +189,6 @@ export const translations = {
     settings: "सेटिंग्स",
     matrix: "प्राथमिकता मैट्रिक्स",
     projects: "प्रोजेक्ट्स",
-
     // Auth
     login: "लॉगिन",
     signup: "साइन अप",
@@ -220,7 +204,6 @@ export const translations = {
     haveAccount: "पहले से खाता है?",
     signUpLink: "साइन अप करें",
     loginLink: "लॉगिन करें",
-
     // Dashboard
     greeting_morning: "सुप्रभात",
     greeting_afternoon: "नमस्कार",
@@ -238,7 +221,6 @@ export const translations = {
     habitRate: "आदत दर",
     allCaughtUp: "सब काम हो गया! शाबाश 🎉",
     pendingMessage: "काम बाकी है आज — चलो शुरू करें! 💪",
-
     // Tasks
     addTask: "+ कार्य जोड़ें",
     editTask: "कार्य संपादित करें",
@@ -288,7 +270,6 @@ export const translations = {
     weekly: "साप्ताहिक",
     monthly: "मासिक",
     weekdays: "सप्ताह के दिन (सोम-शुक्र)",
-
     // Habits
     habitTracker: "आदत ट्रैकर",
     habitSubtitle: "रोज़ाना की आदतें ट्रैक करें",
@@ -298,10 +279,8 @@ export const translations = {
     emoji: "इमोजी",
     color: "रंग",
     streak: "लकीर",
-    thisWeek: "इस हफ्ते",
     noHabits: "कोई आदत नहीं",
     startTracking: "एक अच्छी आदत से शुरू करें!",
-
     // Notes
     newNote: "+ नया नोट",
     noteTitle: "शीर्षक",
@@ -311,7 +290,6 @@ export const translations = {
     noNotes: "कोई नोट नहीं",
     startWriting: "अपना पहला नोट लिखें!",
     searchNotes: "नोट्स खोजें...",
-
     // Timer
     focus: "फोकस",
     shortBreak: "छोटा विराम",
@@ -328,7 +306,6 @@ export const translations = {
     cafe: "कैफे ☕",
     waves: "लहरें 🌊",
     off: "बंद",
-
     // Settings
     appearance: "दिखावट",
     darkMode: "डार्क मोड",
@@ -345,7 +322,6 @@ export const translations = {
     export: "निर्यात",
     aboutApp: "Karyika के बारे में",
     profile: "प्रोफ़ाइल",
-
     // Matrix
     matrixTitle: "आइज़नहावर मैट्रिक्स",
     matrixSubtitle: "जरूरी और महत्वपूर्ण के आधार पर प्राथमिकता दें",
@@ -357,13 +333,11 @@ export const translations = {
     q3Sub: "जरूरी पर महत्वपूर्ण नहीं",
     q4: "हटाएं",
     q4Sub: "न जरूरी न महत्वपूर्ण",
-
     // Kanban
     kanbanTitle: "कानबन बोर्ड",
     todo: "करना है",
     inProgress: "चल रहा है",
     done: "पूर्ण",
-
     // Common
     save: "सहेजें",
     cancel: "रद्द करें",
@@ -378,16 +352,20 @@ export const translations = {
 
 // Language Context
 import { createContext, useContext, useState, useEffect } from "react";
+
 export const LangContext = createContext(null);
 
 export function LangProvider({ children }) {
   const [lang, setLang] = useState(() => localStorage.getItem("karyika-lang") || "en");
+
   const t = (key) => translations[lang][key] || translations["en"][key] || key;
+
   const toggleLang = () => {
     const next = lang === "en" ? "hi" : "en";
     setLang(next);
     localStorage.setItem("karyika-lang", next);
   };
+
   return (
     <LangContext.Provider value={{ lang, setLang, toggleLang, t }}>
       {children}
