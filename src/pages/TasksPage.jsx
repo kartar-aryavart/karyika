@@ -720,3 +720,65 @@ export default function TasksPage({ tasks=[], projects=[], loading=false }) {
     </div>
   );
 }
+
+// ─── TASK RELATIONS (appended) ────────────────────────────────────────────────
+export function TaskRelationsPanel({ task, allTasks, onUpdate }) {
+  const RELATION_TYPES = [
+    { id:"blocks",       label:"Blocks",         icon:"🔴", desc:"This task blocks" },
+    { id:"blocked-by",   label:"Blocked by",     icon:"⛔", desc:"This task is blocked by" },
+    { id:"relates-to",   label:"Relates to",     icon:"🔗", desc:"Related tasks" },
+    { id:"duplicate-of", label:"Duplicate of",   icon:"📋", desc:"Duplicate of" },
+  ];
+  const [adding, setAdding] = useState(null);
+  const [search, setSearch] = useState("");
+
+  const relations = task.relations || {};
+  const filtered = allTasks.filter(t=>t.id!==task.id&&t.title?.toLowerCase().includes(search.toLowerCase()));
+
+  const addRelation = (type, relatedId) => {
+    const updated = { ...relations, [type]: [...(relations[type]||[]), relatedId] };
+    onUpdate({ relations: updated });
+    setAdding(null); setSearch("");
+  };
+  const removeRelation = (type, relatedId) => {
+    const updated = { ...relations, [type]: (relations[type]||[]).filter(id=>id!==relatedId) };
+    onUpdate({ relations: updated });
+  };
+
+  return (
+    <div style={{marginTop:16}}>
+      <div style={{fontSize:11,fontWeight:800,color:"#4B5563",textTransform:"uppercase",letterSpacing:"1px",marginBottom:10}}>Task Relations</div>
+      {RELATION_TYPES.map(rt=>{
+        const related = (relations[rt.id]||[]).map(id=>allTasks.find(t=>t.id===id)).filter(Boolean);
+        return (
+          <div key={rt.id} style={{marginBottom:12}}>
+            <div style={{fontSize:11,color:"#6B7280",fontWeight:700,marginBottom:5}}>{rt.icon} {rt.label} {related.length>0&&<span style={{color:"#4B5563"}}>({related.length})</span>}</div>
+            {related.map(t=>(
+              <div key={t.id} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 10px",background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.05)",borderRadius:8,marginBottom:4}}>
+                <span style={{fontSize:12,flex:1,color:"#D1D5DB",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.title}</span>
+                <span style={{fontSize:10,padding:"1px 6px",background:t.done?"rgba(16,185,129,0.1)":"rgba(107,114,128,0.1)",color:t.done?"#10B981":"#6B7280",borderRadius:10}}>{t.done?"Done":"Pending"}</span>
+                <button onClick={()=>removeRelation(rt.id,t.id)} style={{background:"transparent",border:"none",color:"#4B5563",cursor:"pointer",fontSize:14,padding:0}} onMouseEnter={e=>e.currentTarget.style.color="#F43F5E"} onMouseLeave={e=>e.currentTarget.style.color="#4B5563"}>×</button>
+              </div>
+            ))}
+            {adding===rt.id ? (
+              <div style={{position:"relative"}}>
+                <input value={search} onChange={e=>setSearch(e.target.value)} autoFocus placeholder="Search task to link..." style={{width:"100%",background:"#13131F",border:"1px solid rgba(255,107,53,0.3)",borderRadius:8,color:"#E5E7EB",fontSize:12,padding:"7px 10px",fontFamily:"inherit",outline:"none",boxSizing:"border-box"}} />
+                <div style={{position:"absolute",top:"100%",left:0,right:0,background:"#13131F",border:"1px solid rgba(255,255,255,0.08)",borderRadius:8,maxHeight:160,overflowY:"auto",zIndex:999,marginTop:2}}>
+                  {filtered.slice(0,8).map(t=>(
+                    <div key={t.id} onClick={()=>addRelation(rt.id,t.id)} style={{padding:"7px 10px",cursor:"pointer",fontSize:12,color:"#D1D5DB",transition:"background 0.1s"}} onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,0.05)"} onMouseLeave={e=>e.currentTarget.style.background=""}>
+                      {t.title}
+                    </div>
+                  ))}
+                  {filtered.length===0&&<div style={{padding:"10px",color:"#4B5563",fontSize:12,textAlign:"center"}}>No tasks found</div>}
+                </div>
+                <button onClick={()=>{setAdding(null);setSearch("");}} style={{position:"absolute",right:8,top:"50%",transform:"translateY(-50%)",background:"transparent",border:"none",color:"#6B7280",cursor:"pointer",fontSize:16}}>×</button>
+              </div>
+            ) : (
+              <button onClick={()=>setAdding(rt.id)} style={{fontSize:11,color:"#4B5563",background:"transparent",border:"1px dashed rgba(255,255,255,0.08)",borderRadius:8,padding:"4px 10px",cursor:"pointer",fontFamily:"inherit",transition:"all 0.15s"}} onMouseEnter={e=>{e.currentTarget.style.color="#FF6B35";e.currentTarget.style.borderColor="#FF6B35";}} onMouseLeave={e=>{e.currentTarget.style.color="#4B5563";e.currentTarget.style.borderColor="rgba(255,255,255,0.08)";}}>+ Add {rt.label}</button>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
