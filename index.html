@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#FF6B35" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Karyika" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>Karyika — Enterprise Productivity</title>
+    <meta name="description" content="ClickUp-level productivity: tasks, teams, AI assistant, Gantt, automations & more" />
+    <!-- Preconnect fonts -->
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <style>
+      html,body{margin:0;padding:0;background:#09090E;color:#F3F4F6}
+      #root{height:100dvh;overflow:hidden}
+      /* Initial load flash prevention */
+      body{opacity:0;animation:none}
+      body.loaded{opacity:1;transition:opacity 0.3s}
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>document.addEventListener('DOMContentLoaded',()=>document.body.classList.add('loaded'));</script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

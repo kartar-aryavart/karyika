@@ -1,0 +1,164 @@
+/* 🎨 Karyika Enterprise CSS v5 — ClickUp-inspired animated dark theme */
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,600&f[]=satoshi@700,600,500,400&display=swap');
+
+:root {
+  --font-head: 'Cabinet Grotesk', -apple-system, system-ui, sans-serif;
+  --font-body: 'Satoshi', -apple-system, system-ui, sans-serif;
+  --nav-w: 220px;
+  --t: 0.18s ease;
+  --radius: 12px;
+  --radius-lg: 18px;
+}
+
+[data-theme="dark"] {
+  --bg:        #09090E;
+  --surface:   #0F0F1C;
+  --surface2:  #13131F;
+  --surface3:  #1A1A2E;
+  --surface4:  #1E1E30;
+  --border:    rgba(255,255,255,0.05);
+  --border2:   rgba(255,255,255,0.1);
+  --text:      #F3F4F6;
+  --text2:     #9CA3AF;
+  --text3:     #4B5563;
+  --accent:    #FF6B35;
+  --accent2:   #FF8C5A;
+  --rose:      #F43F5E;
+  --teal:      #10B981;
+  --gold:      #F59E0B;
+  --indigo:    #818CF8;
+  --purple:    #8B5CF6;
+  --cyan:      #06B6D4;
+  --shadow:    0 4px 24px rgba(0,0,0,0.4);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.7);
+  --glow:      0 0 20px rgba(255,107,53,0.25);
+}
+
+[data-theme="light"] {
+  --bg:        #F1F3F9;
+  --surface:   #FFFFFF;
+  --surface2:  #F8F9FC;
+  --surface3:  #EEF0F8;
+  --surface4:  #E5E8F2;
+  --border:    rgba(0,0,0,0.06);
+  --border2:   rgba(0,0,0,0.12);
+  --text:      #0F0F1A;
+  --text2:     #374151;
+  --text3:     #9CA3AF;
+  --accent:    #FF6B35;
+  --accent2:   #FF8C5A;
+  --rose:      #E11D48;
+  --teal:      #059669;
+  --gold:      #D97706;
+  --indigo:    #4F46E5;
+  --purple:    #7C3AED;
+  --cyan:      #0891B2;
+  --shadow:    0 2px 12px rgba(0,0,0,0.07);
+  --shadow-xl: 0 10px 40px rgba(0,0,0,0.12);
+  --glow:      0 0 20px rgba(255,107,53,0.15);
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  overflow: hidden;
+}
+
+/* ── SCROLLBARS ── */
+::-webkit-scrollbar { width:4px; height:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.07); border-radius:4px; }
+::-webkit-scrollbar-thumb:hover { background:rgba(255,255,255,0.14); }
+
+/* ── SELECTION ── */
+::selection { background:rgba(255,107,53,0.2); color:inherit; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
+input,textarea,select,button { font-family:var(--font-body); }
+
+/* ── ANIMATIONS ── */
+@keyframes spin    { to{transform:rotate(360deg)} }
+@keyframes fadeIn  { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none} }
+@keyframes slideUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none} }
+@keyframes slideIn { from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none} }
+@keyframes popIn   { from{opacity:0;transform:scale(0.94)}to{opacity:1;transform:scale(1)} }
+@keyframes pulse   { 0%,100%{opacity:1}50%{opacity:0.45} }
+@keyframes shimmer { 0%{background-position:-200% 0}100%{background-position:200% 0} }
+@keyframes glow    { 0%,100%{box-shadow:0 0 12px rgba(255,107,53,0.3)}50%{box-shadow:0 0 28px rgba(255,107,53,0.6)} }
+@keyframes float   { 0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)} }
+@keyframes gradient-shift { 0%,100%{background-position:0% 50%}50%{background-position:100% 50%} }
+
+.fade-in   { animation: fadeIn  0.25s ease both; }
+.slide-up  { animation: slideUp 0.3s ease both; }
+.pop-in    { animation: popIn   0.22s cubic-bezier(0.34,1.56,0.64,1) both; }
+.spin      { animation: spin    0.7s linear infinite; }
+.pulse     { animation: pulse   2s infinite; }
+.float     { animation: float   3s ease-in-out infinite; }
+
+/* ── SKELETON ── */
+.skeleton {
+  background:linear-gradient(90deg,rgba(255,255,255,0.03) 0%,rgba(255,255,255,0.07) 50%,rgba(255,255,255,0.03) 100%);
+  background-size:200% 100%;
+  animation:shimmer 1.8s infinite;
+  border-radius:8px;
+}
+
+/* ── GLASS CARD ── */
+.glass {
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  backdrop-filter:blur(12px);
+  border-radius:var(--radius-lg);
+}
+
+/* ── GRADIENT BORDERS ── */
+.gradient-border {
+  border:1px solid transparent;
+  background:linear-gradient(var(--surface),var(--surface)) padding-box,
+             linear-gradient(135deg,rgba(255,107,53,0.4),rgba(139,92,246,0.4)) border-box;
+}
+
+/* ── ANIMATED GRADIENT TEXT ── */
+.gradient-text {
+  background:linear-gradient(135deg,#FF6B35,#FF8C5A,#8B5CF6,#FF6B35);
+  background-size:300% 300%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradient-shift 4s ease infinite;
+}
+
+/* ── GLOW BUTTON ── */
+.btn-glow {
+  background:linear-gradient(135deg,#FF6B35,#FF8C5A);
+  border:none;
+  border-radius:10px;
+  color:#fff;
+  cursor:pointer;
+  font-weight:800;
+  transition:all 0.2s;
+  box-shadow:0 4px 20px rgba(255,107,53,0.25);
+}
+.btn-glow:hover { box-shadow:0 8px 30px rgba(255,107,53,0.45); transform:translateY(-1px); }
+.btn-glow:active { transform:translateY(0); }
+
+/* ── HOVER LIFT ── */
+.hover-lift { transition:transform 0.2s,box-shadow 0.2s; }
+.hover-lift:hover { transform:translateY(-2px); box-shadow:var(--shadow-xl); }
+
+/* ── MOBILE ── */
+@media(max-width:768px) {
+  body { overflow:auto; }
+  #mobile-btn { display:flex!important; }
+}
+
+/* ── UTILITY ── */
+.scroll-area { overflow-y:auto; overscroll-behavior:contain; }
+.truncate { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.flex-center { display:flex; align-items:center; justify-content:center; }
