@@ -158,7 +158,7 @@ function DatabaseBlock({ block, onUpdate }) {
               )}
             </tbody>
           </table>
-          <div style={{padding:"6px 12px",borderTop:"1px solid rgba(255,255,255,0.04)",display:"flex",gap:8"}}>
+          <div style={{padding:"6px 12px",borderTop:"1px solid rgba(255,255,255,0.04)",display:"flex",gap:8}}>
             <button onClick={addCol} style={{fontSize:11,color:"var(--text3)",background:"transparent",border:"none",cursor:"pointer",fontFamily:"inherit"}}>+ Add field</button>
           </div>
         </div>
