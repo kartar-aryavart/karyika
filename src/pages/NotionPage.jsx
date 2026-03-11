@@ -1019,7 +1019,7 @@ function PageEditor({ page, onUpdate, onClose, allPages, onNavigatePage }) {
                 onMouseEnter={e => e.currentTarget.style.background="var(--hover-bg)"}
                 onMouseLeave={e => e.currentTarget.style.background=""}>
                 <div style={{ fontSize:12, fontWeight:700, color:"var(--text)" }}>{i===0?"Current":"Version "+(versions.length-i)}</div>
-                <div style={{ fontSize:11, color:"var(--text3)", marginTop:2 }}>{v.savedAt ? new Date(v.savedAt).toLocaleString("en-IN",{hour:"2-digit",minute:"2-digit",month:"short",day:"numeric"}) : "—"}</div>
+                <div style={{ fontSize:11, color:"var(--text3)", marginTop:2 }}>{v.savedAt ? new Date(typeof v.savedAt === "string" ? v.savedAt : (v.savedAt.seconds ? v.savedAt.seconds*1000 : v.savedAt)).toLocaleString("en-IN",{hour:"2-digit",minute:"2-digit",month:"short",day:"numeric"}) : "—"}</div>
                 {i > 0 && (
                   <button onClick={() => { setBlocks(v.blocks||[]); setTitle(v.title||""); }} style={{ marginTop:6, fontSize:11, padding:"3px 8px", background:"rgba(255,107,53,0.1)", border:"1px solid rgba(255,107,53,0.2)", borderRadius:6, color:"var(--accent)", cursor:"pointer", fontFamily:"inherit" }}>Restore</button>
                 )}
@@ -1105,11 +1105,27 @@ export default function NotionPage() {
     if (activePage?.id === id) setActivePage(null);
   }
 
+  // Convert Firebase Timestamp or string to ms safely
+  const toMs = (val) => {
+    if (!val) return 0;
+    if (typeof val === "string") return new Date(val).getTime();
+    if (val.toDate) return val.toDate().getTime();
+    if (val.seconds) return val.seconds * 1000;
+    return 0;
+  };
+  const toStr = (val) => {
+    if (!val) return "";
+    if (typeof val === "string") return val;
+    if (val.toDate) return val.toDate().toISOString();
+    if (val.seconds) return new Date(val.seconds * 1000).toISOString();
+    return "";
+  };
+
   const filtered = pages
     .filter(p => !search || (p.title||"").toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => {
-      if (sortBy === "updated") return (b.updatedAt||"").localeCompare(a.updatedAt||"");
-      if (sortBy === "created") return (b.createdAt||"").localeCompare(a.createdAt||"");
+      if (sortBy === "updated") return toMs(b.updatedAt) - toMs(a.updatedAt);
+      if (sortBy === "created") return toMs(b.createdAt) - toMs(a.createdAt);
       return (a.title||"").localeCompare(b.title||"");
     });
 
@@ -1188,7 +1204,7 @@ export default function NotionPage() {
               </div>
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
                 <span style={{ fontSize:11, color:"var(--text3)" }}>
-                  {page.updatedAt ? new Date(page.updatedAt).toLocaleDateString("en-IN",{month:"short",day:"numeric"}) : "—"}
+                  {page.updatedAt ? new Date(toMs(page.updatedAt)).toLocaleDateString("en-IN",{month:"short",day:"numeric"}) : "—"}
                 </span>
                 <div style={{ display:"flex", gap:4 }}>
                   <span style={{ fontSize:11, padding:"2px 7px", background:"var(--surface2)", borderRadius:20, color:"var(--text3)" }}>
