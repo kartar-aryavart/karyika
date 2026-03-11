@@ -4,6 +4,7 @@ import { subscribeToTasks, subscribeToHabits, subscribeToNotes, subscribeToProje
 import { useLang } from "./i18n/translations.jsx";
 import AuthPage from "./pages/AuthPage";
 import LandingPage from "./pages/LandingPage";
+import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard";
 import TasksPage from "./pages/TasksPage";
 import { HabitsPage, FocusTimer, SettingsPage } from "./pages/OtherPages";
