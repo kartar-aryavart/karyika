@@ -1048,14 +1048,15 @@ export default function NotionPage() {
   }, [user]);
 
   async function createPage(template) {
+    if (!user) return;
     setCreating(true);
     const blocks = template === "blank" ? [newBlock("text")] : getTemplate(template);
-    const id = await addNote(user.uid, {
+    const docRef = await addNote(user.uid, {
       title: template === "blank" ? "" : "New " + template,
-      icon: "📄", cover: "", blocks, versions: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+      icon: "📄", cover: "", blocks, versions: [],
     });
     setCreating(false);
-    const created = { id, title:"", icon:"📄", cover:"", blocks, versions:[] };
+    const created = { id: docRef.id, title: template === "blank" ? "" : "New " + template, icon:"📄", cover:"", blocks, versions:[] };
     setActivePage(created);
   }
 
@@ -1091,9 +1092,12 @@ export default function NotionPage() {
   }
 
   async function updatePage(page) {
-    await updateNote(user.uid, page.id, page);
-    setPages(p => p.map(x => x.id === page.id ? page : x));
-    if (activePage?.id === page.id) setActivePage(page);
+    try {
+      const { id, ...data } = page;
+      await updateNote(user.uid, id, data);
+      setPages(p => p.map(x => x.id === page.id ? page : x));
+      if (activePage && activePage.id === page.id) setActivePage(page);
+    } catch(e) { console.error("Update page error:", e); }
   }
 
   async function deletePage(id) {
@@ -1109,12 +1113,10 @@ export default function NotionPage() {
       return (a.title||"").localeCompare(b.title||"");
     });
 
-  // Editor — inside app layout (no fixed, keeps theme working)
+  // Editor — full page inside scroll container
   if (activePage) return (
-    <div style={{ height:"calc(100vh - 56px)", display:"flex", flexDirection:"column" }}>
-      <PageEditor page={activePage} onUpdate={updatePage} onClose={() => setActivePage(null)} allPages={pages}
-        onNavigatePage={id => { const p = pages.find(x => x.id === id); if (p) setActivePage(p); }} />
-    </div>
+    <PageEditor page={activePage} onUpdate={updatePage} onClose={() => setActivePage(null)} allPages={pages}
+      onNavigatePage={id => { const p = pages.find(x => x.id === id); if (p) setActivePage(p); }} />
   );
 
   // Pages list

@@ -139,7 +139,6 @@ export default function App() {
   );
 
   const pendingCount = tasks.filter(x => !x.done).length;
-  const fullPage = page === "notes";
 
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "hidden", background: "var(--bg)" }}>
@@ -147,8 +146,7 @@ export default function App() {
       <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", minWidth: 0 }}>
 
         {/* Topbar */}
-        {!fullPage && (
-          <div className="topbar" style={{ position: "sticky", top: 0, zIndex: 50, background: "var(--topbar-bg)", borderBottom: "1px solid var(--border)", padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", backdropFilter: "blur(20px)", flexShrink: 0, transition: "background 0.25s" }}>
+        <div className="topbar" style={{ position: "sticky", top: 0, zIndex: 50, background: "var(--topbar-bg)", borderBottom: "1px solid var(--border)", padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", backdropFilter: "blur(20px)", flexShrink: 0, transition: "background 0.25s" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <button id="mob-btn" onClick={() => setSidebarOpen(o => !o)} style={{ background: "var(--surface2)", border: "1px solid var(--border)", borderRadius: 8, padding: "7px 10px", cursor: "pointer", fontSize: 16, color: "var(--text3)", display: "none" }}>☰</button>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -170,10 +168,9 @@ export default function App() {
               </div>
             </div>
           </div>
-        )}
 
         {/* Page content */}
-        <div style={{ flex: 1, overflowY: "auto", padding: fullPage ? "0" : "20px 22px", opacity: pageTransition ? 0 : 1, transition: "opacity 0.08s ease", display: "flex", flexDirection: "column", minHeight: 0 }}>
+        <div style={{ flex: 1, overflowY: "auto", padding: "20px 22px", opacity: pageTransition ? 0 : 1, transition: "opacity 0.08s ease" }}>
           {page === "dashboard"   && <Dashboard tasks={tasks} habits={habits} projects={projects} goals={goals} />}
           {page === "tasks"       && <TasksPage tasks={tasks} projects={projects} loading={dataLoading} />}
           {page === "habits"      && <HabitsPage habits={habits} loading={dataLoading} />}
