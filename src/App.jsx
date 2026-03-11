@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "./hooks/useAuth";
-import { subscribeToTasks, subscribeToHabits, subscribeToNotes, subscribeToProjects, subscribeToGoals, checkIsAdmin } from "./firebase/services";
+import { subscribeToTasks, subscribeToHabits, subscribeToNotes, subscribeToProjects, subscribeToGoals, checkIsAdmin, addNotification } from "./firebase/services";
+import { playSound } from "./components/NotificationBell";
 import { useLang } from "./i18n/translations.jsx";
 import AuthPage from "./pages/AuthPage";
 import LandingPage from "./pages/LandingPage";
@@ -47,6 +48,8 @@ export default function App() {
   const [goals,    setGoals]    = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [pageTransition, setPageTransition] = useState(false);
+  const prevTasks = useRef([]);
+  const welcomeSent = useRef(false);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
@@ -56,7 +59,31 @@ export default function App() {
   useEffect(() => {
     if (!user) { setTasks([]); setHabits([]); setNotes([]); setProjects([]); setGoals([]); setDataLoading(false); return; }
     setDataLoading(true);
-    const u1 = subscribeToTasks(user.uid, d => { setTasks(d); setDataLoading(false); });
+    const u1 = subscribeToTasks(user.uid, d => {
+      // Detect task completion
+      const prev = prevTasks.current;
+      if (prev.length > 0) {
+        d.forEach(function(t) {
+          const was = prev.find(function(p) { return p.id === t.id; });
+          if (was && !was.done && t.done) {
+            addNotification(user.uid, { title: "Task complete! 🎉", body: t.title, type: "success", link: "tasks" });
+            playSound("complete");
+          }
+        });
+      }
+      prevTasks.current = d;
+      setTasks(d);
+      setDataLoading(false);
+    });
+    // Welcome notification on first load
+    if (!welcomeSent.current) {
+      welcomeSent.current = true;
+      setTimeout(function() {
+        const h = new Date().getHours();
+        const greet = h < 12 ? "Subah Mubarak" : h < 17 ? "Dopahar ka salaam" : h < 21 ? "Shaam ayi hai" : "Raat ka safar";
+        addNotification(user.uid, { title: greet + ", " + (user.displayName || "Yaar") + "! 👋", body: "Karyika mein aapka swagat hai. Kaam shuru karein?", type: "info" });
+      }, 3000);
+    }
     const u2 = subscribeToHabits(user.uid, setHabits);
     const u3 = subscribeToNotes(user.uid, setNotes);
     const u4 = subscribeToProjects(user.uid, setProjects);
