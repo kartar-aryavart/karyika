@@ -15,7 +15,7 @@ const PRI_BG    = { high:"rgba(244,63,94,0.1)", medium:"rgba(245,158,11,0.1)", l
 
 // ─── DEFAULT STATUSES (per project, customizable) ─────────────────────────────
 const DEFAULT_STATUSES = [
-  { id:"todo",        label:"To Do",       color:"var(--text3)" },
+  { id:"todo",        label:"To Do",       color:"#6B7280" },
   { id:"in-progress", label:"In Progress", color:"#F59E0B" },
   { id:"review",      label:"In Review",   color:"#818CF8" },
   { id:"blocked",     label:"Blocked",     color:"#F43F5E" },
@@ -33,8 +33,8 @@ const TASK_TEMPLATES = [
 ];
 
 // ─── INLINE INPUT STYLE ───────────────────────────────────────────────────────
-const inp = { background:"var(--surface2)", border:"1px solid var(--border)", borderRadius:9, color:"var(--text)", fontSize:13, padding:"9px 13px", fontFamily:"inherit", outline:"none", width:"100%", boxSizing:"border-box" };
-const lbl = { fontSize:11, fontWeight:700, color:"var(--text3)", display:"block", marginBottom:5, textTransform:"uppercase", letterSpacing:"0.5px" };
+const inp = { background:"#13131F", border:"1px solid rgba(255,255,255,0.08)", borderRadius:9, color:"#E5E7EB", fontSize:13, padding:"9px 13px", fontFamily:"inherit", outline:"none", width:"100%", boxSizing:"border-box" };
+const lbl = { fontSize:11, fontWeight:700, color:"#6B7280", display:"block", marginBottom:5, textTransform:"uppercase", letterSpacing:"0.5px" };
 
 // ─── TASK FORM MODAL (full featured) ─────────────────────────────────────────
 function TaskFormModal({ initial, onSave, onClose, projects=[], statuses=DEFAULT_STATUSES }) {
@@ -57,12 +57,12 @@ function TaskFormModal({ initial, onSave, onClose, projects=[], statuses=DEFAULT
 
   return (
     <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:16}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
-      <div style={{background:"var(--surface)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:20,width:"100%",maxWidth:600,maxHeight:"90vh",overflow:"hidden",display:"flex",flexDirection:"column",boxShadow:"0 30px 80px rgba(0,0,0,0.8)"}}>
+      <div style={{background:"#0F0F1C",border:"1px solid rgba(255,255,255,0.1)",borderRadius:20,width:"100%",maxWidth:600,maxHeight:"90vh",overflow:"hidden",display:"flex",flexDirection:"column",boxShadow:"0 30px 80px rgba(0,0,0,0.8)"}}>
         {/* Header */}
-        <div style={{padding:"18px 22px 0",borderBottom:"1px solid var(--border)"}}>
+        <div style={{padding:"18px 22px 0",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
             <div style={{fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:17,fontWeight:800}}>{initial?.id?"Edit Task":"New Task"}</div>
-            <button onClick={onClose} style={{background:"transparent",border:"none",color:"var(--text3)",cursor:"pointer",fontSize:22,lineHeight:1}}>×</button>
+            <button onClick={onClose} style={{background:"transparent",border:"none",color:"#6B7280",cursor:"pointer",fontSize:22,lineHeight:1}}>×</button>
           </div>
           {/* Tabs */}
           <div style={{display:"flex",gap:0}}>
@@ -86,7 +86,7 @@ function TaskFormModal({ initial, onSave, onClose, projects=[], statuses=DEFAULT
                   <div style={lbl}>Quick Templates</div>
                   <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
                     {TASK_TEMPLATES.map(tpl=>(
-                      <button key={tpl.label} onClick={()=>applyTemplate(tpl)} style={{padding:"4px 10px",background:"rgba(255,255,255,0.04)",border:"1px solid var(--border)",borderRadius:20,color:"var(--text2)",fontSize:11,cursor:"pointer",fontFamily:"inherit",transition:"all 0.15s"}}
+                      <button key={tpl.label} onClick={()=>applyTemplate(tpl)} style={{padding:"4px 10px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.08)",borderRadius:20,color:"#9CA3AF",fontSize:11,cursor:"pointer",fontFamily:"inherit",transition:"all 0.15s"}}
                         onMouseEnter={e=>e.currentTarget.style.borderColor="#FF6B35"} onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,0.08)"}>{tpl.label}</button>
                     ))}
                   </div>
@@ -230,20 +230,20 @@ function TaskFormModal({ initial, onSave, onClose, projects=[], statuses=DEFAULT
                 <input value={subtaskInput} onChange={e=>setSubtaskInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&subtaskInput.trim()){set("subtasks",[...(form.subtasks||[]),{id:uid(),title:subtaskInput.trim(),done:false}]);setSubtaskInput("");}}} placeholder="Add subtask + Enter" style={{...inp,flex:1}} />
                 <button onClick={()=>{if(subtaskInput.trim()){set("subtasks",[...(form.subtasks||[]),{id:uid(),title:subtaskInput.trim(),done:false}]);setSubtaskInput("");}}} style={{padding:"9px 16px",background:"#FF6B35",border:"none",borderRadius:9,color:"#fff",fontWeight:800,cursor:"pointer",fontFamily:"inherit"}}>+</button>
               </div>
-              {(form.subtasks||[]).length===0&&<div style={{textAlign:"center",color:"var(--text3)",padding:"24px 0",fontSize:13}}>No subtasks yet</div>}
+              {(form.subtasks||[]).length===0&&<div style={{textAlign:"center",color:"#4B5563",padding:"24px 0",fontSize:13}}>No subtasks yet</div>}
               <div style={{display:"flex",flexDirection:"column",gap:6}}>
                 {(form.subtasks||[]).map((s,i)=>(
-                  <div key={s.id} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 12px",background:"var(--surface2)",border:"1px solid var(--border)",borderRadius:9}}>
+                  <div key={s.id} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 12px",background:"#13131F",border:"1px solid rgba(255,255,255,0.06)",borderRadius:9}}>
                     <input type="checkbox" checked={s.done} onChange={()=>set("subtasks",(form.subtasks||[]).map(st=>st.id===s.id?{...st,done:!st.done}:st))} style={{accentColor:"#FF6B35",width:15,height:15,cursor:"pointer"}} />
                     <span style={{flex:1,fontSize:13,color:s.done?"#4B5563":"#E5E7EB",textDecoration:s.done?"line-through":"none"}}>{s.title}</span>
-                    <button onClick={()=>set("subtasks",(form.subtasks||[]).filter(st=>st.id!==s.id))} style={{background:"transparent",border:"none",color:"var(--text3)",cursor:"pointer",fontSize:14}} onMouseEnter={e=>e.currentTarget.style.color="#F43F5E"} onMouseLeave={e=>e.currentTarget.style.color="#4B5563"}>×</button>
+                    <button onClick={()=>set("subtasks",(form.subtasks||[]).filter(st=>st.id!==s.id))} style={{background:"transparent",border:"none",color:"#4B5563",cursor:"pointer",fontSize:14}} onMouseEnter={e=>e.currentTarget.style.color="#F43F5E"} onMouseLeave={e=>e.currentTarget.style.color="#4B5563"}>×</button>
                   </div>
                 ))}
               </div>
               {(form.subtasks||[]).length>0&&(
                 <div style={{marginTop:12}}>
                   <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-                    <span style={{fontSize:12,color:"var(--text3)"}}>Progress</span>
+                    <span style={{fontSize:12,color:"#6B7280"}}>Progress</span>
                     <span style={{fontSize:12,fontWeight:700,color:"#10B981"}}>{Math.round((form.subtasks||[]).filter(s=>s.done).length/(form.subtasks||[]).length*100)}%</span>
                   </div>
                   <div style={{height:4,background:"rgba(255,255,255,0.06)",borderRadius:4,overflow:"hidden"}}>
@@ -277,8 +277,8 @@ function TaskFormModal({ initial, onSave, onClose, projects=[], statuses=DEFAULT
         </div>
 
         {/* Footer */}
-        <div style={{padding:"14px 22px",borderTop:"1px solid var(--border)",display:"flex",gap:10,justifyContent:"flex-end"}}>
-          <button onClick={onClose} style={{padding:"9px 20px",background:"transparent",border:"1px solid var(--border)",borderRadius:10,color:"var(--text2)",cursor:"pointer",fontFamily:"inherit",fontWeight:600}}>Cancel</button>
+        <div style={{padding:"14px 22px",borderTop:"1px solid rgba(255,255,255,0.06)",display:"flex",gap:10,justifyContent:"flex-end"}}>
+          <button onClick={onClose} style={{padding:"9px 20px",background:"transparent",border:"1px solid rgba(255,255,255,0.08)",borderRadius:10,color:"#9CA3AF",cursor:"pointer",fontFamily:"inherit",fontWeight:600}}>Cancel</button>
           <button onClick={handleSave} disabled={saving} style={{padding:"9px 24px",background:"linear-gradient(135deg,#FF6B35,#FF8C5A)",border:"none",borderRadius:10,color:"#fff",fontWeight:800,cursor:saving?"not-allowed":"pointer",fontFamily:"inherit",opacity:saving?0.7:1,boxShadow:"0 4px 16px rgba(255,107,53,0.3)"}}>
             {saving?"Saving...":initial?.id?"Update Task":"Add Task"}
           </button>
@@ -312,11 +312,11 @@ function TaskRow({ task, selected, onSelect, onToggle, onEdit, onDelete, statuse
           {task.coverColor&&<div style={{width:8,height:8,borderRadius:"50%",background:task.coverColor,flexShrink:0}}/>}
           <span style={{fontSize:13,fontWeight:600,color:task.done?"#4B5563":"#E5E7EB",textDecoration:task.done?"line-through":"none",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{task.title}</span>
           {task.points>0&&<span style={{fontSize:9,padding:"1px 5px",background:"rgba(129,140,248,0.15)",color:"#818CF8",borderRadius:10,fontWeight:800,flexShrink:0}}>{task.points}pt</span>}
-          {task.recurring&&task.recurring!=="none"&&<span style={{fontSize:9,color:"var(--text3)"}}>🔄</span>}
+          {task.recurring&&task.recurring!=="none"&&<span style={{fontSize:9,color:"#6B7280"}}>🔄</span>}
         </div>
         <div style={{display:"flex",gap:5,marginTop:3,flexWrap:"wrap"}}>
           {(task.tags||[]).slice(0,3).map(tag=><span key={tag} style={{fontSize:10,padding:"1px 6px",background:"rgba(255,107,53,0.08)",color:"#FF8C5A",borderRadius:10}}>#{tag}</span>)}
-          {subtaskTotal>0&&<span style={{fontSize:10,color:"var(--text3)"}}>☐ {subtaskDone}/{subtaskTotal}</span>}
+          {subtaskTotal>0&&<span style={{fontSize:10,color:"#6B7280"}}>☐ {subtaskDone}/{subtaskTotal}</span>}
           {task.customFields?.url&&<span style={{fontSize:10,color:"#818CF8"}}>🔗</span>}
         </div>
       </div>
@@ -327,11 +327,11 @@ function TaskRow({ task, selected, onSelect, onToggle, onEdit, onDelete, statuse
       {/* Priority */}
       <span style={{fontSize:10,padding:"2px 8px",background:PRI_BG[task.priority]||"rgba(107,114,128,0.1)",color:PRI_COLOR[task.priority]||"#6B7280",borderRadius:20,fontWeight:700,textAlign:"center"}}>{task.priority}</span>
       {/* Est time */}
-      <span style={{fontSize:11,color:"var(--text3)"}}>{task.estimatedTime?`${task.estimatedTime}m`:"—"}</span>
+      <span style={{fontSize:11,color:"#6B7280"}}>{task.estimatedTime?`${task.estimatedTime}m`:"—"}</span>
       {/* Actions */}
       <div style={{display:"flex",gap:3}}>
-        <button onClick={()=>onEdit(task)} style={{background:"transparent",border:"none",color:"var(--text3)",cursor:"pointer",fontSize:13,padding:"2px",borderRadius:4,transition:"color 0.1s"}} onMouseEnter={e=>e.currentTarget.style.color="#818CF8"} onMouseLeave={e=>e.currentTarget.style.color="#4B5563"}>✏️</button>
-        <button onClick={()=>onDelete(task.id)} style={{background:"transparent",border:"none",color:"var(--text3)",cursor:"pointer",fontSize:13,padding:"2px",borderRadius:4,transition:"color 0.1s"}} onMouseEnter={e=>e.currentTarget.style.color="#F43F5E"} onMouseLeave={e=>e.currentTarget.style.color="#4B5563"}>🗑</button>
+        <button onClick={()=>onEdit(task)} style={{background:"transparent",border:"none",color:"#4B5563",cursor:"pointer",fontSize:13,padding:"2px",borderRadius:4,transition:"color 0.1s"}} onMouseEnter={e=>e.currentTarget.style.color="#818CF8"} onMouseLeave={e=>e.currentTarget.style.color="#4B5563"}>✏️</button>
+        <button onClick={()=>onDelete(task.id)} style={{background:"transparent",border:"none",color:"#4B5563",cursor:"pointer",fontSize:13,padding:"2px",borderRadius:4,transition:"color 0.1s"}} onMouseEnter={e=>e.currentTarget.style.color="#F43F5E"} onMouseLeave={e=>e.currentTarget.style.color="#4B5563"}>🗑</button>
       </div>
     </div>
   );
@@ -351,15 +351,15 @@ function KanbanView({ tasks, statuses, onEdit, onStatusChange, onToggle }) {
             {/* Column header */}
             <div style={{display:"flex",alignItems:"center",gap:8,padding:"10px 12px",marginBottom:8}}>
               <div style={{width:8,height:8,borderRadius:"50%",background:status.color}}/>
-              <span style={{fontSize:12,fontWeight:800,color:"var(--text2)",textTransform:"uppercase",letterSpacing:"0.5px"}}>{status.label}</span>
-              <span style={{marginLeft:"auto",fontSize:10,background:"rgba(255,255,255,0.06)",color:"var(--text3)",borderRadius:20,padding:"1px 7px",fontWeight:700}}>{cols.length}</span>
+              <span style={{fontSize:12,fontWeight:800,color:"#9CA3AF",textTransform:"uppercase",letterSpacing:"0.5px"}}>{status.label}</span>
+              <span style={{marginLeft:"auto",fontSize:10,background:"rgba(255,255,255,0.06)",color:"#6B7280",borderRadius:20,padding:"1px 7px",fontWeight:700}}>{cols.length}</span>
             </div>
             {/* Cards */}
             <div style={{display:"flex",flexDirection:"column",gap:8,minHeight:60}}>
               {cols.map(task=>(
                 <div key={task.id} draggable onDragStart={()=>setDragging(task)} onDragEnd={()=>setDragging(null)}
                   onClick={()=>onEdit(task)}
-                  style={{background:"var(--surface2)",border:"1px solid var(--border)",borderLeft:`3px solid ${PRI_COLOR[task.priority]||"#6B7280"}`,borderRadius:11,padding:"11px 13px",cursor:"pointer",transition:"all 0.15s",opacity:dragging?.id===task.id?0.4:1}}
+                  style={{background:"#13131F",border:"1px solid rgba(255,255,255,0.06)",borderLeft:`3px solid ${PRI_COLOR[task.priority]||"#6B7280"}`,borderRadius:11,padding:"11px 13px",cursor:"pointer",transition:"all 0.15s",opacity:dragging?.id===task.id?0.4:1}}
                   onMouseEnter={e=>{e.currentTarget.style.background="#1A1A2E";e.currentTarget.style.borderColor="rgba(255,255,255,0.1)";}}
                   onMouseLeave={e=>{e.currentTarget.style.background="#13131F";e.currentTarget.style.borderColor="rgba(255,255,255,0.06)";}}>
                   {task.coverColor&&<div style={{height:3,borderRadius:"9px 9px 0 0",background:task.coverColor,marginBottom:8,marginLeft:-13,marginRight:-13,marginTop:-11}}/>}
@@ -371,7 +371,7 @@ function KanbanView({ tasks, statuses, onEdit, onStatusChange, onToggle }) {
                   {(task.subtasks||[]).length>0&&(
                     <div style={{marginBottom:8}}>
                       <div style={{display:"flex",justifyContent:"space-between",marginBottom:3}}>
-                        <span style={{fontSize:10,color:"var(--text3)"}}>Subtasks</span>
+                        <span style={{fontSize:10,color:"#6B7280"}}>Subtasks</span>
                         <span style={{fontSize:10,color:"#10B981",fontWeight:700}}>{(task.subtasks||[]).filter(s=>s.done).length}/{(task.subtasks||[]).length}</span>
                       </div>
                       <div style={{height:3,background:"rgba(255,255,255,0.05)",borderRadius:3,overflow:"hidden"}}>
@@ -382,7 +382,7 @@ function KanbanView({ tasks, statuses, onEdit, onStatusChange, onToggle }) {
                   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
                     <span style={{fontSize:10,color:task.due&&task.due<todayStr()?"#F43F5E":task.due===todayStr()?"#F59E0B":"#4B5563"}}>{task.due?fmt(task.due):"No due date"}</span>
                     <div style={{display:"flex",gap:4,alignItems:"center"}}>
-                      {task.estimatedTime&&<span style={{fontSize:10,color:"var(--text3)"}}>⏱{task.estimatedTime}m</span>}
+                      {task.estimatedTime&&<span style={{fontSize:10,color:"#4B5563"}}>⏱{task.estimatedTime}m</span>}
                       <div onClick={e=>{e.stopPropagation();onToggle(task);}} style={{width:18,height:18,borderRadius:"50%",border:`1.5px solid ${task.done?"#10B981":"rgba(255,255,255,0.2)"}`,background:task.done?"#10B981":"transparent",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",transition:"all 0.2s"}}>
                         {task.done&&<span style={{color:"#fff",fontSize:9,fontWeight:900}}>✓</span>}
                       </div>
@@ -402,7 +402,7 @@ function KanbanView({ tasks, statuses, onEdit, onStatusChange, onToggle }) {
 // ─── SPRINT VIEW ──────────────────────────────────────────────────────────────
 function SprintView({ tasks, onEdit, onToggle, statuses }) {
   const sprints = [
-    {id:"backlog", label:"📦 Backlog", color:"var(--text3)"},
+    {id:"backlog", label:"📦 Backlog", color:"#6B7280"},
     {id:"sprint-1",label:"🏃 Sprint 1", color:"#FF6B35"},
     {id:"sprint-2",label:"🏃 Sprint 2", color:"#818CF8"},
   ];
@@ -420,12 +420,12 @@ function SprintView({ tasks, onEdit, onToggle, statuses }) {
         const totalPts = getPoints(sprintTasks);
         const donePts = getPoints(doneTasks);
         return (
-          <div key={sprint.id} style={{background:"var(--surface)",border:"1px solid var(--border)",borderRadius:14,overflow:"hidden"}}>
+          <div key={sprint.id} style={{background:"#0A0A14",border:"1px solid rgba(255,255,255,0.05)",borderRadius:14,overflow:"hidden"}}>
             <div onClick={()=>setOpen(o=>({...o,[sprint.id]:!o[sprint.id]}))} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 16px",cursor:"pointer",background:"rgba(255,255,255,0.01)"}}>
-              <span style={{fontSize:12,color:"var(--text3)",transition:"transform 0.2s",transform:open[sprint.id]?"rotate(90deg)":"none"}}>▶</span>
+              <span style={{fontSize:12,color:"#4B5563",transition:"transform 0.2s",transform:open[sprint.id]?"rotate(90deg)":"none"}}>▶</span>
               <div style={{width:8,height:8,borderRadius:"50%",background:sprint.color}}/>
               <span style={{fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:14,fontWeight:800,flex:1}}>{sprint.label}</span>
-              <div style={{display:"flex",gap:10,fontSize:12,color:"var(--text3)"}}>
+              <div style={{display:"flex",gap:10,fontSize:12,color:"#6B7280"}}>
                 <span>{sprintTasks.length} tasks</span>
                 {totalPts>0&&<span style={{color:"#818CF8",fontWeight:700}}>{donePts}/{totalPts} pts</span>}
                 <span style={{color:sprint.id!=="backlog"?"#10B981":"#6B7280"}}>{sprintTasks.length?Math.round(doneTasks.length/sprintTasks.length*100):0}%</span>
@@ -467,7 +467,7 @@ function MatrixView({ tasks, onEdit, onToggle }) {
     {u:"urgent",i:"important",      label:"DO FIRST 🔥",   color:"#F43F5E", bg:"rgba(244,63,94,0.06)"},
     {u:"not-urgent",i:"important",  label:"SCHEDULE 📅",   color:"#818CF8", bg:"rgba(129,140,248,0.06)"},
     {u:"urgent",i:"not-important",  label:"DELEGATE 👥",   color:"#F59E0B", bg:"rgba(245,158,11,0.06)"},
-    {u:"not-urgent",i:"not-important",label:"ELIMINATE 🗑",color:"var(--text3)", bg:"rgba(107,114,128,0.06)"},
+    {u:"not-urgent",i:"not-important",label:"ELIMINATE 🗑",color:"#6B7280", bg:"rgba(107,114,128,0.06)"},
   ];
   return (
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,height:500}}>
@@ -485,7 +485,7 @@ function MatrixView({ tasks, onEdit, onToggle }) {
                     {t.done&&<span style={{color:"#fff",fontSize:8,fontWeight:900}}>✓</span>}
                   </div>
                   <span style={{fontSize:12,flex:1,color:t.done?"#4B5563":"#E5E7EB",textDecoration:t.done?"line-through":"none",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.title}</span>
-                  {t.due&&<span style={{fontSize:10,color:"var(--text3)",flexShrink:0}}>{fmt(t.due)}</span>}
+                  {t.due&&<span style={{fontSize:10,color:"#6B7280",flexShrink:0}}>{fmt(t.due)}</span>}
                 </div>
               ))}
               {qTasks.length===0&&<div style={{textAlign:"center",color:q.color,opacity:0.3,fontSize:12,padding:"12px 0"}}>Empty</div>}
@@ -500,11 +500,11 @@ function MatrixView({ tasks, onEdit, onToggle }) {
 // ─── BULK ACTION BAR ──────────────────────────────────────────────────────────
 function BulkBar({ count, onMarkDone, onDelete, onSetPriority, onClear }) {
   return (
-    <div style={{position:"fixed",bottom:24,left:"50%",transform:"translateX(-50%)",background:"var(--surface3)",border:"1px solid rgba(255,255,255,0.12)",borderRadius:16,padding:"10px 18px",display:"flex",alignItems:"center",gap:12,boxShadow:"0 20px 60px rgba(0,0,0,0.7)",zIndex:999,animation:"slideUp 0.2s ease"}}>
-      <span style={{fontSize:13,fontWeight:700,color:"var(--text)"}}>{count} selected</span>
+    <div style={{position:"fixed",bottom:24,left:"50%",transform:"translateX(-50%)",background:"#1A1A2E",border:"1px solid rgba(255,255,255,0.12)",borderRadius:16,padding:"10px 18px",display:"flex",alignItems:"center",gap:12,boxShadow:"0 20px 60px rgba(0,0,0,0.7)",zIndex:999,animation:"slideUp 0.2s ease"}}>
+      <span style={{fontSize:13,fontWeight:700,color:"#F3F4F6"}}>{count} selected</span>
       <div style={{width:1,height:20,background:"rgba(255,255,255,0.1)"}}/>
       <button onClick={onMarkDone} style={{padding:"6px 12px",background:"rgba(16,185,129,0.15)",border:"1px solid rgba(16,185,129,0.3)",borderRadius:8,color:"#10B981",cursor:"pointer",fontSize:12,fontWeight:700,fontFamily:"inherit"}}>✓ Mark Done</button>
-      <select onChange={e=>{if(e.target.value)onSetPriority(e.target.value);}} defaultValue="" style={{padding:"6px 10px",background:"rgba(255,255,255,0.05)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:8,color:"var(--text2)",cursor:"pointer",fontFamily:"inherit",fontSize:12}}>
+      <select onChange={e=>{if(e.target.value)onSetPriority(e.target.value);}} defaultValue="" style={{padding:"6px 10px",background:"rgba(255,255,255,0.05)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:8,color:"#9CA3AF",cursor:"pointer",fontFamily:"inherit",fontSize:12}}>
         <option value="">Set Priority...</option>
         <option value="urgent">🔴 Urgent</option>
         <option value="high">🟠 High</option>
@@ -512,7 +512,7 @@ function BulkBar({ count, onMarkDone, onDelete, onSetPriority, onClear }) {
         <option value="low">🟢 Low</option>
       </select>
       <button onClick={onDelete} style={{padding:"6px 12px",background:"rgba(244,63,94,0.15)",border:"1px solid rgba(244,63,94,0.3)",borderRadius:8,color:"#F43F5E",cursor:"pointer",fontSize:12,fontWeight:700,fontFamily:"inherit"}}>🗑 Delete</button>
-      <button onClick={onClear} style={{padding:"6px 10px",background:"transparent",border:"1px solid var(--border)",borderRadius:8,color:"var(--text3)",cursor:"pointer",fontSize:12,fontFamily:"inherit"}}>✕</button>
+      <button onClick={onClear} style={{padding:"6px 10px",background:"transparent",border:"1px solid rgba(255,255,255,0.08)",borderRadius:8,color:"#6B7280",cursor:"pointer",fontSize:12,fontFamily:"inherit"}}>✕</button>
     </div>
   );
 }
@@ -612,7 +612,7 @@ export default function TasksPage({ tasks=[], projects=[], loading=false }) {
       <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:18,flexWrap:"wrap"}}>
         {/* Search */}
         <div style={{flex:1,minWidth:200,position:"relative"}}>
-          <span style={{position:"absolute",left:12,top:"50%",transform:"translateY(-50%)",color:"var(--text3)",fontSize:14,pointerEvents:"none"}}>🔍</span>
+          <span style={{position:"absolute",left:12,top:"50%",transform:"translateY(-50%)",color:"#4B5563",fontSize:14,pointerEvents:"none"}}>🔍</span>
           <input placeholder="Search tasks, tags, descriptions..." value={search} onChange={e=>setSearch(e.target.value)}
             style={{...inp,paddingLeft:36,fontSize:13}} />
         </div>
@@ -636,11 +636,11 @@ export default function TasksPage({ tasks=[], projects=[], loading=false }) {
           <option value="title">Sort: Title</option>
           <option value="points">Sort: Points</option>
         </select>
-        <button onClick={()=>setSortDir(d=>d==="asc"?"desc":"asc")} style={{padding:"9px 10px",background:"rgba(255,255,255,0.04)",border:"1px solid var(--border)",borderRadius:9,color:"var(--text3)",cursor:"pointer",fontSize:14}}>
+        <button onClick={()=>setSortDir(d=>d==="asc"?"desc":"asc")} style={{padding:"9px 10px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.08)",borderRadius:9,color:"#6B7280",cursor:"pointer",fontSize:14}}>
           {sortDir==="asc"?"↑":"↓"}
         </button>
         {/* View switcher */}
-        <div style={{display:"flex",background:"var(--surface2)",borderRadius:10,padding:3,gap:2,border:"1px solid var(--border)"}}>
+        <div style={{display:"flex",background:"#13131F",borderRadius:10,padding:3,gap:2,border:"1px solid rgba(255,255,255,0.06)"}}>
           {VIEWS.map(v=>(
             <button key={v.id} onClick={()=>setView(v.id)} style={{padding:"6px 12px",border:"none",borderRadius:7,cursor:"pointer",background:view===v.id?"rgba(255,107,53,0.15)":"transparent",color:view===v.id?"#FF6B35":"#6B7280",fontSize:11,fontWeight:700,fontFamily:"inherit",transition:"all 0.15s"}}>{v.icon} {v.label}</button>
           ))}
@@ -653,14 +653,14 @@ export default function TasksPage({ tasks=[], projects=[], loading=false }) {
       {/* ── STATS BAR ── */}
       <div style={{display:"flex",gap:10,marginBottom:14,flexWrap:"wrap"}}>
         {[
-          {id:"all",label:"All",count:counts.all,color:"var(--text3)"},
+          {id:"all",label:"All",count:counts.all,color:"#6B7280"},
           {id:"today",label:"⏰ Today",count:counts.today,color:"#F59E0B"},
           {id:"pending",label:"⏳ Pending",count:counts.pending,color:"#818CF8"},
           {id:"overdue",label:"⚠️ Overdue",count:counts.overdue,color:"#F43F5E"},
           {id:"completed",label:"✅ Done",count:counts.completed,color:"#10B981"},
-          {id:"no-due",label:"📭 No Due",count:tasks.filter(t=>!t.due).length,color:"var(--text3)"},
+          {id:"no-due",label:"📭 No Due",count:tasks.filter(t=>!t.due).length,color:"#4B5563"},
         ].map(f=>(
-          <button key={f.id} onClick={()=>setFilter(f.id)} style={{padding:"5px 12px",border:`1px solid`,borderColor:filter===f.id?f.color:"rgba(255,255,255,0.06)",borderRadius:20,background:filter===f.id?`${f.color}14`:"transparent",color:filter===f.id?f.color:"var(--text3)",fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"inherit",transition:"all 0.15s"}}>
+          <button key={f.id} onClick={()=>setFilter(f.id)} style={{padding:"5px 12px",border:`1px solid`,borderColor:filter===f.id?f.color:"rgba(255,255,255,0.06)",borderRadius:20,background:filter===f.id?`${f.color}14`:"transparent",color:filter===f.id?f.color:"#6B7280",fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"inherit",transition:"all 0.15s"}}>
             {f.label} {f.count>0&&<span style={{opacity:0.7}}>({f.count})</span>}
           </button>
         ))}
@@ -673,21 +673,21 @@ export default function TasksPage({ tasks=[], projects=[], loading=false }) {
 
       {/* ── PROGRESS BAR ── */}
       {tasks.length>0&&(
-        <div style={{marginBottom:16,padding:"10px 14px",background:"var(--surface)",border:"1px solid var(--border)",borderRadius:12,display:"flex",alignItems:"center",gap:12}}>
-          <span style={{fontSize:12,color:"var(--text3)",fontWeight:600}}>Overall Progress</span>
+        <div style={{marginBottom:16,padding:"10px 14px",background:"#0A0A14",border:"1px solid rgba(255,255,255,0.05)",borderRadius:12,display:"flex",alignItems:"center",gap:12}}>
+          <span style={{fontSize:12,color:"#6B7280",fontWeight:600}}>Overall Progress</span>
           <div style={{flex:1,height:6,background:"rgba(255,255,255,0.05)",borderRadius:4,overflow:"hidden"}}>
             <div style={{height:"100%",background:"linear-gradient(90deg,#10B981,#06B6D4)",borderRadius:4,width:`${completionPct}%`,transition:"width 1s ease",boxShadow:"0 0 10px rgba(16,185,129,0.4)"}}/>
           </div>
           <span style={{fontSize:12,fontWeight:800,color:"#10B981"}}>{completionPct}%</span>
-          <span style={{fontSize:11,color:"var(--text3)"}}>{tasks.filter(t=>t.done).length}/{tasks.length}</span>
+          <span style={{fontSize:11,color:"#4B5563"}}>{tasks.filter(t=>t.done).length}/{tasks.length}</span>
           {view==="list"&&<><div style={{width:1,height:16,background:"rgba(255,255,255,0.06)"}}/>
-          <button onClick={()=>selected.size===filtered.length?clearSelect():selectAll()} style={{padding:"3px 10px",background:"transparent",border:"1px solid var(--border)",borderRadius:8,color:"var(--text3)",fontSize:11,cursor:"pointer",fontFamily:"inherit",fontWeight:600}}>{selected.size===filtered.length?"Deselect All":"Select All"}</button></>}
+          <button onClick={()=>selected.size===filtered.length?clearSelect():selectAll()} style={{padding:"3px 10px",background:"transparent",border:"1px solid rgba(255,255,255,0.08)",borderRadius:8,color:"#6B7280",fontSize:11,cursor:"pointer",fontFamily:"inherit",fontWeight:600}}>{selected.size===filtered.length?"Deselect All":"Select All"}</button></>}
         </div>
       )}
 
       {/* ── TABLE HEADER (list view) ── */}
       {view==="list"&&filtered.length>0&&(
-        <div style={{display:"grid",gridTemplateColumns:"32px 20px 1fr 100px 80px 70px 60px 40px",gap:8,padding:"6px 14px",marginBottom:4,fontSize:10,fontWeight:800,color:"var(--text3)",textTransform:"uppercase",letterSpacing:"0.8px"}}>
+        <div style={{display:"grid",gridTemplateColumns:"32px 20px 1fr 100px 80px 70px 60px 40px",gap:8,padding:"6px 14px",marginBottom:4,fontSize:10,fontWeight:800,color:"#4B5563",textTransform:"uppercase",letterSpacing:"0.8px"}}>
           <div/>
           <div/>
           <div>TASK</div>
@@ -701,8 +701,8 @@ export default function TasksPage({ tasks=[], projects=[], loading=false }) {
 
       {/* ── VIEWS ── */}
       {view==="list"&&(
-        <div style={{background:"var(--surface)",border:"1px solid var(--border)",borderRadius:14,overflow:"hidden"}}>
-          {filtered.length===0&&<div style={{textAlign:"center",padding:"40px 20px",color:"var(--text3)"}}><div style={{fontSize:40,marginBottom:8}}>📭</div><div style={{fontSize:14}}>No tasks found</div><div style={{fontSize:12,marginTop:4}}>{search?"Try a different search":"Add your first task!"}</div></div>}
+        <div style={{background:"#0A0A14",border:"1px solid rgba(255,255,255,0.05)",borderRadius:14,overflow:"hidden"}}>
+          {filtered.length===0&&<div style={{textAlign:"center",padding:"40px 20px",color:"#4B5563"}}><div style={{fontSize:40,marginBottom:8}}>📭</div><div style={{fontSize:14}}>No tasks found</div><div style={{fontSize:12,marginTop:4}}>{search?"Try a different search":"Add your first task!"}</div></div>}
           {filtered.map(task=>(
             <TaskRow key={task.id} task={task} selected={selected.has(task.id)} onSelect={toggleSelect} onToggle={handleToggle} onEdit={openEdit} onDelete={handleDelete} statuses={statuses} />
           ))}
@@ -747,34 +747,34 @@ export function TaskRelationsPanel({ task, allTasks, onUpdate }) {
 
   return (
     <div style={{marginTop:16}}>
-      <div style={{fontSize:11,fontWeight:800,color:"var(--text3)",textTransform:"uppercase",letterSpacing:"1px",marginBottom:10}}>Task Relations</div>
+      <div style={{fontSize:11,fontWeight:800,color:"#4B5563",textTransform:"uppercase",letterSpacing:"1px",marginBottom:10}}>Task Relations</div>
       {RELATION_TYPES.map(rt=>{
         const related = (relations[rt.id]||[]).map(id=>allTasks.find(t=>t.id===id)).filter(Boolean);
         return (
           <div key={rt.id} style={{marginBottom:12}}>
-            <div style={{fontSize:11,color:"var(--text3)",fontWeight:700,marginBottom:5}}>{rt.icon} {rt.label} {related.length>0&&<span style={{color:"var(--text3)"}}>({related.length})</span>}</div>
+            <div style={{fontSize:11,color:"#6B7280",fontWeight:700,marginBottom:5}}>{rt.icon} {rt.label} {related.length>0&&<span style={{color:"#4B5563"}}>({related.length})</span>}</div>
             {related.map(t=>(
-              <div key={t.id} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 10px",background:"rgba(255,255,255,0.02)",border:"1px solid var(--border)",borderRadius:8,marginBottom:4}}>
-                <span style={{fontSize:12,flex:1,color:"var(--text2)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.title}</span>
+              <div key={t.id} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 10px",background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.05)",borderRadius:8,marginBottom:4}}>
+                <span style={{fontSize:12,flex:1,color:"#D1D5DB",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.title}</span>
                 <span style={{fontSize:10,padding:"1px 6px",background:t.done?"rgba(16,185,129,0.1)":"rgba(107,114,128,0.1)",color:t.done?"#10B981":"#6B7280",borderRadius:10}}>{t.done?"Done":"Pending"}</span>
-                <button onClick={()=>removeRelation(rt.id,t.id)} style={{background:"transparent",border:"none",color:"var(--text3)",cursor:"pointer",fontSize:14,padding:0}} onMouseEnter={e=>e.currentTarget.style.color="#F43F5E"} onMouseLeave={e=>e.currentTarget.style.color="#4B5563"}>×</button>
+                <button onClick={()=>removeRelation(rt.id,t.id)} style={{background:"transparent",border:"none",color:"#4B5563",cursor:"pointer",fontSize:14,padding:0}} onMouseEnter={e=>e.currentTarget.style.color="#F43F5E"} onMouseLeave={e=>e.currentTarget.style.color="#4B5563"}>×</button>
               </div>
             ))}
             {adding===rt.id ? (
               <div style={{position:"relative"}}>
-                <input value={search} onChange={e=>setSearch(e.target.value)} autoFocus placeholder="Search task to link..." style={{width:"100%",background:"var(--surface2)",border:"1px solid rgba(255,107,53,0.3)",borderRadius:8,color:"var(--text)",fontSize:12,padding:"7px 10px",fontFamily:"inherit",outline:"none",boxSizing:"border-box"}} />
-                <div style={{position:"absolute",top:"100%",left:0,right:0,background:"var(--surface2)",border:"1px solid var(--border)",borderRadius:8,maxHeight:160,overflowY:"auto",zIndex:999,marginTop:2}}>
+                <input value={search} onChange={e=>setSearch(e.target.value)} autoFocus placeholder="Search task to link..." style={{width:"100%",background:"#13131F",border:"1px solid rgba(255,107,53,0.3)",borderRadius:8,color:"#E5E7EB",fontSize:12,padding:"7px 10px",fontFamily:"inherit",outline:"none",boxSizing:"border-box"}} />
+                <div style={{position:"absolute",top:"100%",left:0,right:0,background:"#13131F",border:"1px solid rgba(255,255,255,0.08)",borderRadius:8,maxHeight:160,overflowY:"auto",zIndex:999,marginTop:2}}>
                   {filtered.slice(0,8).map(t=>(
-                    <div key={t.id} onClick={()=>addRelation(rt.id,t.id)} style={{padding:"7px 10px",cursor:"pointer",fontSize:12,color:"var(--text2)",transition:"background 0.1s"}} onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,0.05)"} onMouseLeave={e=>e.currentTarget.style.background=""}>
+                    <div key={t.id} onClick={()=>addRelation(rt.id,t.id)} style={{padding:"7px 10px",cursor:"pointer",fontSize:12,color:"#D1D5DB",transition:"background 0.1s"}} onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,0.05)"} onMouseLeave={e=>e.currentTarget.style.background=""}>
                       {t.title}
                     </div>
                   ))}
-                  {filtered.length===0&&<div style={{padding:"10px",color:"var(--text3)",fontSize:12,textAlign:"center"}}>No tasks found</div>}
+                  {filtered.length===0&&<div style={{padding:"10px",color:"#4B5563",fontSize:12,textAlign:"center"}}>No tasks found</div>}
                 </div>
-                <button onClick={()=>{setAdding(null);setSearch("");}} style={{position:"absolute",right:8,top:"50%",transform:"translateY(-50%)",background:"transparent",border:"none",color:"var(--text3)",cursor:"pointer",fontSize:16}}>×</button>
+                <button onClick={()=>{setAdding(null);setSearch("");}} style={{position:"absolute",right:8,top:"50%",transform:"translateY(-50%)",background:"transparent",border:"none",color:"#6B7280",cursor:"pointer",fontSize:16}}>×</button>
               </div>
             ) : (
-              <button onClick={()=>setAdding(rt.id)} style={{fontSize:11,color:"var(--text3)",background:"transparent",border:"1px dashed rgba(255,255,255,0.08)",borderRadius:8,padding:"4px 10px",cursor:"pointer",fontFamily:"inherit",transition:"all 0.15s"}} onMouseEnter={e=>{e.currentTarget.style.color="#FF6B35";e.currentTarget.style.borderColor="#FF6B35";}} onMouseLeave={e=>{e.currentTarget.style.color="#4B5563";e.currentTarget.style.borderColor="rgba(255,255,255,0.08)";}}>+ Add {rt.label}</button>
+              <button onClick={()=>setAdding(rt.id)} style={{fontSize:11,color:"#4B5563",background:"transparent",border:"1px dashed rgba(255,255,255,0.08)",borderRadius:8,padding:"4px 10px",cursor:"pointer",fontFamily:"inherit",transition:"all 0.15s"}} onMouseEnter={e=>{e.currentTarget.style.color="#FF6B35";e.currentTarget.style.borderColor="#FF6B35";}} onMouseLeave={e=>{e.currentTarget.style.color="#4B5563";e.currentTarget.style.borderColor="rgba(255,255,255,0.08)";}}>+ Add {rt.label}</button>
             )}
           </div>
         );

@@ -34,7 +34,7 @@ function SuggestedTask({ task, onAdd }) {
     <div style={{ display:"flex", alignItems:"center", gap:10, padding:"9px 12px", background:"rgba(255,107,53,0.05)", border:"1px solid rgba(255,107,53,0.2)", borderRadius:10, borderLeft:`3px solid ${PRI[task.priority]||"#FF6B35"}` }}>
       <div style={{ flex:1 }}>
         <div style={{ fontWeight:600, fontSize:13 }}>{task.title}</div>
-        <div style={{ fontSize:11, color:"#6B7280", marginTop:2 }}>
+        <div style={{ fontSize:11, color:"var(--text3)", marginTop:2 }}>
           {task.priority && <span style={{ marginRight:8, color:PRI[task.priority] }}>● {task.priority}</span>}
           {task.category && <span style={{ marginRight:8 }}>📁 {task.category}</span>}
           {task.due && <span>📅 {task.due}</span>}
@@ -69,12 +69,12 @@ function Msg({ msg }) {
         {isAI ? "⚡" : "👤"}
       </div>
       <div style={{ maxWidth:"78%", display:"flex", flexDirection:"column", gap:8 }}>
-        <div style={{ background:isAI?"#13131F":"rgba(255,107,53,0.08)", border:`1px solid ${isAI?"#2A2A3A":"rgba(255,107,53,0.2)"}`, borderRadius:isAI?"4px 14px 14px 14px":"14px 4px 14px 14px", padding:"12px 15px", fontSize:13.5, lineHeight:1.75, color:"#E5E7EB", whiteSpace:"pre-wrap" }}>
+        <div style={{ background:isAI?"#13131F":"rgba(255,107,53,0.08)", border:`1px solid ${isAI?"#2A2A3A":"rgba(255,107,53,0.2)"}`, borderRadius:isAI?"4px 14px 14px 14px":"14px 4px 14px 14px", padding:"12px 15px", fontSize:13.5, lineHeight:1.75, color:"var(--text)", whiteSpace:"pre-wrap" }}>
           {clean}
         </div>
         {parsed.length > 0 && (
           <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
-            <div style={{ fontSize:10, fontWeight:800, color:"#6B7280", textTransform:"uppercase", letterSpacing:"1px" }}>💡 Suggested Tasks — Click to Add</div>
+            <div style={{ fontSize:10, fontWeight:800, color:"var(--text3)", textTransform:"uppercase", letterSpacing:"1px" }}>💡 Suggested Tasks — Click to Add</div>
             {parsed.map((t,i) => <SuggestedTask key={i} task={t} onAdd={msg.onAdd} />)}
           </div>
         )}
@@ -141,7 +141,7 @@ export default function AIAssistantPage({ tasks = [], projects = [], goals = [] 
         <div style={{ width:44, height:44, borderRadius:12, background:"linear-gradient(135deg,#FF6B35,#FF8C5A)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, boxShadow:"0 0 20px rgba(255,107,53,0.35)" }}>⚡</div>
         <div>
           <div style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontSize:18, fontWeight:800 }}>AI Assistant</div>
-          <div style={{ fontSize:12, color:"#6B7280" }}>Powered by Claude — Your smart productivity co-pilot</div>
+          <div style={{ fontSize:12, color:"var(--text3)" }}>Powered by Claude — Your smart productivity co-pilot</div>
         </div>
         <div style={{ marginLeft:"auto", fontSize:11, background:"rgba(16,185,129,0.1)", color:"#10B981", padding:"4px 12px", borderRadius:20, border:"1px solid rgba(16,185,129,0.25)", fontWeight:700 }}>● Online</div>
       </div>
@@ -150,7 +150,7 @@ export default function AIAssistantPage({ tasks = [], projects = [], goals = [] 
       <div style={{ display:"flex", gap:7, marginBottom:12, flexWrap:"wrap" }}>
         {QUICK_PROMPTS.map(qp => (
           <button key={qp.label} onClick={() => { setInput(qp.prompt); inputRef.current?.focus(); }}
-            style={{ display:"flex", alignItems:"center", gap:5, padding:"5px 11px", border:"1px solid #2A2A3A", borderRadius:20, background:"#13131F", cursor:"pointer", fontSize:12, fontWeight:500, color:"#9CA3AF", fontFamily:"inherit", transition:"all 0.15s", whiteSpace:"nowrap" }}>
+            style={{ display:"flex", alignItems:"center", gap:5, padding:"5px 11px", border:"1px solid #2A2A3A", borderRadius:20, background:"var(--surface2)", cursor:"pointer", fontSize:12, fontWeight:500, color:"var(--text2)", fontFamily:"inherit", transition:"all 0.15s", whiteSpace:"nowrap" }}>
             {qp.icon} {qp.label}
           </button>
         ))}
@@ -162,7 +162,7 @@ export default function AIAssistantPage({ tasks = [], projects = [], goals = [] 
         {loading && (
           <div style={{ display:"flex", gap:10, alignItems:"center" }}>
             <div style={{ width:30, height:30, borderRadius:"50%", background:"linear-gradient(135deg,#FF6B35,#FF8C5A)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, boxShadow:"0 0 12px rgba(255,107,53,0.3)" }}>⚡</div>
-            <div style={{ display:"flex", gap:5, padding:"12px 15px", background:"#13131F", borderRadius:"4px 14px 14px 14px", border:"1px solid #2A2A3A" }}>
+            <div style={{ display:"flex", gap:5, padding:"12px 15px", background:"var(--surface2)", borderRadius:"4px 14px 14px 14px", border:"1px solid #2A2A3A" }}>
               {[0,1,2].map(i => <div key={i} style={{ width:7, height:7, borderRadius:"50%", background:"#FF6B35", animation:"bounce 1.1s ease infinite", animationDelay:`${i*0.18}s` }} />)}
             </div>
           </div>
@@ -175,13 +175,13 @@ export default function AIAssistantPage({ tasks = [], projects = [], goals = [] 
         <input ref={inputRef} value={input} onChange={e=>setInput(e.target.value)}
           onKeyDown={e=>{ if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send(input);} }}
           placeholder="Kuch bhi poochho... (Enter se bhejo, Shift+Enter for newline)"
-          style={{ flex:1, background:"#13131F", border:"1px solid #2A2A3A", borderRadius:12, color:"#E5E7EB", fontSize:14, padding:"12px 16px", fontFamily:"inherit", outline:"none" }} />
+          style={{ flex:1, background:"var(--surface2)", border:"1px solid #2A2A3A", borderRadius:12, color:"var(--text)", fontSize:14, padding:"12px 16px", fontFamily:"inherit", outline:"none" }} />
         <button onClick={()=>send(input)} disabled={loading||!input.trim()}
           style={{ padding:"12px 20px", border:"none", borderRadius:12, background:loading||!input.trim()?"#1A1A26":"linear-gradient(135deg,#FF6B35,#FF8C5A)", color:"#fff", fontSize:13, fontWeight:700, cursor:loading||!input.trim()?"default":"pointer", fontFamily:"inherit", transition:"all 0.2s", boxShadow:(!loading&&input.trim())?"0 0 14px rgba(255,107,53,0.3)":"none" }}>
           {loading ? "⏳" : "Send →"}
         </button>
       </div>
-      <div style={{ fontSize:11, color:"#4B5563", textAlign:"center", marginTop:7 }}>Suggested tasks directly add karo Firebase mein · Context-aware responses</div>
+      <div style={{ fontSize:11, color:"var(--text3)", textAlign:"center", marginTop:7 }}>Suggested tasks directly add karo Firebase mein · Context-aware responses</div>
 
       <style>{`@keyframes bounce{0%,100%{transform:scale(0.7);opacity:0.4}50%{transform:scale(1.1);opacity:1}}`}</style>
     </div>

@@ -49,7 +49,7 @@ export default function Sidebar({ page, setPage, dark, setDark, pendingCount, op
       {open && isMobile && <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 99, backdropFilter: "blur(4px)" }} />}
       <nav style={{
         width: 220, display: "flex", flexDirection: "column", zIndex: 100, flexShrink: 0,
-        background: "linear-gradient(180deg,#0A0A14 0%,#0C0C18 100%)",
+        background: "var(--surface)",
         borderRight: "1px solid rgba(255,255,255,0.04)",
         position: isMobile ? "fixed" : "relative", top: 0, left: 0, bottom: 0,
         transform: isMobile ? (open ? "translateX(0)" : "translateX(-100%)") : "none",
@@ -88,7 +88,7 @@ export default function Sidebar({ page, setPage, dark, setDark, pendingCount, op
                     style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "6px 9px", border: "none", borderRadius: 8, cursor: "pointer", fontFamily: "inherit", textAlign: "left", background: active ? `${item.color}12` : hovered ? "rgba(255,255,255,0.04)" : "transparent", transition: "all 0.12s", position: "relative" }}>
                     {active && <div style={{ position: "absolute", left: 0, top: "20%", bottom: "20%", width: 2.5, borderRadius: "0 3px 3px 0", background: item.color, boxShadow: `0 0 8px ${item.color}88` }} />}
                     <div style={{ width: 24, height: 24, borderRadius: 6, flexShrink: 0, background: active ? `${item.color}18` : "rgba(255,255,255,0.04)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, boxShadow: active ? `0 0 10px ${item.color}33` : "none" }}>{item.emoji}</div>
-                    <span style={{ fontSize: 12, fontWeight: active ? 700 : 400, color: active ? item.color : hovered ? "#C9D1D9" : "#6B7280", flex: 1, transition: "color 0.12s" }}>{item.label}</span>
+                    <span style={{ fontSize: 12, fontWeight: active ? 700 : 400, color: active ? item.color : hovered ? "var(--text)" : "var(--text3)", flex: 1, transition: "color 0.12s" }}>{item.label}</span>
                     {item.badge && <span style={{ fontSize: 7, padding: "2px 5px", borderRadius: 6, fontWeight: 900, letterSpacing: "0.3px", background: bs.bg, color: bs.color }}>{item.badge}</span>}
                     {item.id === "tasks" && pendingCount > 0 && <span style={{ fontSize: 9, padding: "1px 6px", borderRadius: 10, background: "rgba(244,63,94,0.15)", color: "#F43F5E", fontWeight: 800 }}>{pendingCount}</span>}
                   </button>
@@ -117,7 +117,7 @@ export default function Sidebar({ page, setPage, dark, setDark, pendingCount, op
               {(user?.displayName || user?.email || "U")[0].toUpperCase()}
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 11, fontWeight: 600, color: "#C9D1D9", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text2)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                 {user?.displayName || user?.email?.split("@")[0] || "User"}
               </div>
               <div style={{ fontSize: 8, color: "#4B5563", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>Pro · Phase 6+7</div>

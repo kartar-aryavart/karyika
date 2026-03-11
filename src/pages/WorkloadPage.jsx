@@ -56,7 +56,7 @@ export default function WorkloadPage({ tasks=[], projects=[] }) {
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:24}}>
         <div>
           <h1 style={{fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:26,fontWeight:900,margin:0,letterSpacing:"-1px"}}>👥 Workload</h1>
-          <p style={{color:"#6B7280",fontSize:13,margin:"4px 0 0"}}>Track capacity & prevent burnout across categories</p>
+          <p style={{color:"var(--text3)",fontSize:13,margin:"4px 0 0"}}>Track capacity & prevent burnout across categories</p>
         </div>
         <div style={{display:"flex",gap:6}}>
           {[["week","This Week"],["month","This Month"]].map(([v,l])=>(
@@ -71,14 +71,14 @@ export default function WorkloadPage({ tasks=[], projects=[] }) {
           const loadPct = Math.round((m.pending.length/Math.max(maxTasks,1))*100);
           const status = loadPct>75?"🔴 Overloaded":loadPct>40?"🟡 Moderate":"🟢 Healthy";
           return (
-            <div key={m.id} style={{background:"#0F0F1C",border:`1px solid ${loadPct>75?"rgba(244,63,94,0.2)":loadPct>40?"rgba(245,158,11,0.1)":"rgba(16,185,129,0.1)"}`,borderRadius:16,padding:"18px 20px",transition:"all 0.2s"}}
+            <div key={m.id} style={{background:"var(--surface)",border:`1px solid ${loadPct>75?"rgba(244,63,94,0.2)":loadPct>40?"rgba(245,158,11,0.1)":"rgba(16,185,129,0.1)"}`,borderRadius:16,padding:"18px 20px",transition:"all 0.2s"}}
               onMouseEnter={e=>e.currentTarget.style.transform="translateY(-2px)"}
               onMouseLeave={e=>e.currentTarget.style.transform="none"}>
               <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:14}}>
                 <Avatar name={m.name} size={38}/>
                 <div>
                   <div style={{fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:15,fontWeight:800}}>{m.name}</div>
-                  <div style={{fontSize:11,color:"#6B7280"}}>{status}</div>
+                  <div style={{fontSize:11,color:"var(--text3)"}}>{status}</div>
                 </div>
               </div>
               {/* Load bar */}
@@ -95,7 +95,7 @@ export default function WorkloadPage({ tasks=[], projects=[] }) {
                 ].map(s=>(
                   <div key={s.label} style={{textAlign:"center",background:"rgba(255,255,255,0.02)",borderRadius:10,padding:"8px 4px"}}>
                     <div style={{fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:20,fontWeight:900,color:s.color}}>{s.val}</div>
-                    <div style={{fontSize:10,color:"#4B5563"}}>{s.label}</div>
+                    <div style={{fontSize:10,color:"var(--text3)"}}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -103,16 +103,16 @@ export default function WorkloadPage({ tasks=[], projects=[] }) {
               {m.pending.slice(0,3).map(t=>(
                 <div key={t.id} style={{display:"flex",alignItems:"center",gap:8,marginTop:8,padding:"5px 0",borderTop:"1px solid rgba(255,255,255,0.03)"}}>
                   <div style={{width:6,height:6,borderRadius:"50%",background:PRI_COLOR[t.priority]||"#6B7280",flexShrink:0}}/>
-                  <span style={{fontSize:11,color:"#9CA3AF",flex:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.title}</span>
+                  <span style={{fontSize:11,color:"var(--text2)",flex:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{t.title}</span>
                   {t.due&&<span style={{fontSize:10,color:t.due<todayStr()?"#F43F5E":"#4B5563",flexShrink:0}}>{fmt(t.due)}</span>}
                 </div>
               ))}
-              {m.pending.length>3&&<div style={{fontSize:11,color:"#4B5563",marginTop:6,textAlign:"center"}}>+{m.pending.length-3} more tasks</div>}
+              {m.pending.length>3&&<div style={{fontSize:11,color:"var(--text3)",marginTop:6,textAlign:"center"}}>+{m.pending.length-3} more tasks</div>}
             </div>
           );
         })}
         {members.length===0&&(
-          <div style={{gridColumn:"1/-1",textAlign:"center",padding:"60px 20px",color:"#4B5563"}}>
+          <div style={{gridColumn:"1/-1",textAlign:"center",padding:"60px 20px",color:"var(--text3)"}}>
             <div style={{fontSize:40,marginBottom:8}}>👥</div>
             <div style={{fontSize:14}}>Add tasks with categories to see workload</div>
           </div>
@@ -120,8 +120,8 @@ export default function WorkloadPage({ tasks=[], projects=[] }) {
       </div>
 
       {/* Timeline heatmap */}
-      <div style={{background:"#0F0F1C",border:"1px solid rgba(255,255,255,0.06)",borderRadius:16,padding:"20px 22px"}}>
-        <div style={{fontSize:13,fontWeight:800,color:"#F3F4F6",marginBottom:16}}>📅 Task Timeline — Next 14 Days</div>
+      <div style={{background:"var(--surface)",border:"1px solid var(--border)",borderRadius:16,padding:"20px 22px"}}>
+        <div style={{fontSize:13,fontWeight:800,color:"var(--text)",marginBottom:16}}>📅 Task Timeline — Next 14 Days</div>
         <div style={{overflowX:"auto"}}>
           <div style={{display:"grid",gridTemplateColumns:`120px repeat(14,1fr)`,gap:4,minWidth:700}}>
             {/* Header row */}
@@ -136,7 +136,7 @@ export default function WorkloadPage({ tasks=[], projects=[] }) {
               <>
                 <div key={m.id+"-label"} style={{display:"flex",alignItems:"center",gap:8,paddingRight:8}}>
                   <Avatar name={m.name} size={22}/>
-                  <span style={{fontSize:12,color:"#9CA3AF",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{m.name}</span>
+                  <span style={{fontSize:12,color:"var(--text2)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{m.name}</span>
                 </div>
                 {days.map(d=>{
                   const dayTasks = m.tasks.filter(t=>t.due===d.date&&!t.done);
@@ -156,11 +156,11 @@ export default function WorkloadPage({ tasks=[], projects=[] }) {
           </div>
         </div>
         <div style={{display:"flex",gap:12,marginTop:12,alignItems:"center",justifyContent:"flex-end"}}>
-          <span style={{fontSize:11,color:"#4B5563"}}>Intensity:</span>
+          <span style={{fontSize:11,color:"var(--text3)"}}>Intensity:</span>
           {[["rgba(16,185,129,0.3)","1"],["rgba(245,158,11,0.3)","2-3"],["rgba(244,63,94,0.3)","4+"]].map(([bg,label])=>(
             <div key={label} style={{display:"flex",alignItems:"center",gap:5}}>
               <div style={{width:12,height:12,borderRadius:3,background:bg}}/>
-              <span style={{fontSize:10,color:"#4B5563"}}>{label} tasks</span>
+              <span style={{fontSize:10,color:"var(--text3)"}}>{label} tasks</span>
             </div>
           ))}
         </div>

@@ -25,7 +25,7 @@ function Avatar({ name, size=28 }) {
 function TaskCard({ task, members, onClick }) {
   const assignee = members.find(m=>task.assignees?.[0]===m.uid);
   return (
-    <div onClick={onClick} style={{background:"#13131F",border:"1px solid rgba(255,255,255,0.06)",borderLeft:`3px solid ${PRI[task.priority]||"#6B7280"}`,borderRadius:10,padding:"12px 14px",cursor:"pointer",transition:"all 0.15s",marginBottom:8}}
+    <div onClick={onClick} style={{background:"var(--surface2)",border:"1px solid var(--border)",borderLeft:`3px solid ${PRI[task.priority]||"#6B7280"}`,borderRadius:10,padding:"12px 14px",cursor:"pointer",transition:"all 0.15s",marginBottom:8}}
       onMouseEnter={e=>{e.currentTarget.style.background="#1A1A2E";e.currentTarget.style.borderColor="rgba(255,255,255,0.12)";}}
       onMouseLeave={e=>{e.currentTarget.style.background="#13131F";e.currentTarget.style.borderColor="rgba(255,255,255,0.06)";}}>
       <div style={{display:"flex",alignItems:"flex-start",gap:8}}>
@@ -33,8 +33,8 @@ function TaskCard({ task, members, onClick }) {
           <div style={{fontSize:13,fontWeight:600,color:task.done?"#6B7280":"#F3F4F6",textDecoration:task.done?"line-through":"none",marginBottom:6}}>{task.title}</div>
           <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
             <span style={{fontSize:10,padding:"2px 8px",background:`${STATUS_COLOR[task.status]||"#6B7280"}20`,color:STATUS_COLOR[task.status]||"#6B7280",borderRadius:12,fontWeight:700}}>{task.status}</span>
-            {task.due&&<span style={{fontSize:10,padding:"2px 8px",background:"rgba(255,255,255,0.05)",color:"#9CA3AF",borderRadius:12}}>📅 {task.due}</span>}
-            {task.comments?.length>0&&<span style={{fontSize:10,color:"#6B7280"}}>💬 {task.comments.length}</span>}
+            {task.due&&<span style={{fontSize:10,padding:"2px 8px",background:"rgba(255,255,255,0.05)",color:"var(--text2)",borderRadius:12}}>📅 {task.due}</span>}
+            {task.comments?.length>0&&<span style={{fontSize:10,color:"var(--text3)"}}>💬 {task.comments.length}</span>}
           </div>
         </div>
         {assignee && <Avatar name={assignee.name||assignee.uid} size={26} />}
@@ -62,12 +62,12 @@ function TaskModal({ task, members, wsId, onClose, onUpdate }) {
 
   return (
     <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.8)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:20}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
-      <div style={{background:"#0F0F1C",border:"1px solid rgba(255,255,255,0.1)",borderRadius:18,width:"100%",maxWidth:600,maxHeight:"80vh",overflow:"hidden",display:"flex",flexDirection:"column"}}>
+      <div style={{background:"var(--surface)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:18,width:"100%",maxWidth:600,maxHeight:"80vh",overflow:"hidden",display:"flex",flexDirection:"column"}}>
         {/* Header */}
         <div style={{padding:"20px 24px 16px",borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
           <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:12}}>
             <div style={{fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:18,fontWeight:800,flex:1}}>{task.title}</div>
-            <button onClick={onClose} style={{background:"transparent",border:"none",color:"#6B7280",cursor:"pointer",fontSize:20,lineHeight:1}}>×</button>
+            <button onClick={onClose} style={{background:"transparent",border:"none",color:"var(--text3)",cursor:"pointer",fontSize:20,lineHeight:1}}>×</button>
           </div>
           {/* Status selector */}
           <div style={{display:"flex",gap:6,marginTop:14}}>
@@ -80,13 +80,13 @@ function TaskModal({ task, members, wsId, onClose, onUpdate }) {
         </div>
         {/* Body */}
         <div style={{flex:1,overflowY:"auto",padding:"16px 24px"}}>
-          {task.desc&&<p style={{fontSize:13,color:"#9CA3AF",marginBottom:16,lineHeight:1.7}}>{task.desc}</p>}
-          <div style={{fontSize:11,fontWeight:800,color:"#4B5563",textTransform:"uppercase",letterSpacing:"1px",marginBottom:12}}>Comments ({task.comments?.length||0})</div>
+          {task.desc&&<p style={{fontSize:13,color:"var(--text2)",marginBottom:16,lineHeight:1.7}}>{task.desc}</p>}
+          <div style={{fontSize:11,fontWeight:800,color:"var(--text3)",textTransform:"uppercase",letterSpacing:"1px",marginBottom:12}}>Comments ({task.comments?.length||0})</div>
           {(task.comments||[]).map(c=>(
             <div key={c.id} style={{display:"flex",gap:10,marginBottom:14}}>
               <Avatar name={c.authorName} size={30} />
               <div style={{flex:1}}>
-                <div style={{fontSize:12,fontWeight:700,color:"#F3F4F6"}}>{c.authorName} <span style={{color:"#4B5563",fontWeight:400}}>{new Date(c.createdAt).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})}</span></div>
+                <div style={{fontSize:12,fontWeight:700,color:"var(--text)"}}>{c.authorName} <span style={{color:"var(--text3)",fontWeight:400}}>{new Date(c.createdAt).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})}</span></div>
                 <div style={{fontSize:13,color:"#D1D5DB",marginTop:4,lineHeight:1.6}}>{c.text}</div>
               </div>
             </div>
@@ -96,7 +96,7 @@ function TaskModal({ task, members, wsId, onClose, onUpdate }) {
         <div style={{padding:"12px 24px",borderTop:"1px solid rgba(255,255,255,0.06)",display:"flex",gap:10}}>
           <Avatar name={user?.displayName||user?.email} size={32} />
           <div style={{flex:1,display:"flex",gap:8}}>
-            <input value={comment} onChange={e=>setComment(e.target.value)} onKeyDown={e=>e.key==="Enter"&&!e.shiftKey&&submitComment()} placeholder="Add a comment..." style={{flex:1,background:"#1A1A2E",border:"1px solid rgba(255,255,255,0.08)",borderRadius:10,color:"#E5E7EB",fontSize:13,padding:"10px 14px",fontFamily:"inherit",outline:"none"}} />
+            <input value={comment} onChange={e=>setComment(e.target.value)} onKeyDown={e=>e.key==="Enter"&&!e.shiftKey&&submitComment()} placeholder="Add a comment..." style={{flex:1,background:"var(--surface3)",border:"1px solid var(--border)",borderRadius:10,color:"var(--text)",fontSize:13,padding:"10px 14px",fontFamily:"inherit",outline:"none"}} />
             <button onClick={submitComment} style={{padding:"10px 16px",border:"none",borderRadius:10,background:"#FF6B35",color:"#fff",cursor:"pointer",fontWeight:700,fontFamily:"inherit",fontSize:13}}>Send</button>
           </div>
         </div>
@@ -176,7 +176,7 @@ export default function TeamPage() {
   if (loading && workspaces.length===0) return (
     <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:300,flexDirection:"column",gap:16}}>
       <div style={{width:36,height:36,borderRadius:"50%",border:"3px solid #1A1A26",borderTopColor:"#FF6B35",animation:"spin 0.7s linear infinite"}} />
-      <div style={{color:"#4B5563",fontSize:13}}>Loading team workspace...</div>
+      <div style={{color:"var(--text3)",fontSize:13}}>Loading team workspace...</div>
     </div>
   );
 
@@ -190,10 +190,10 @@ export default function TeamPage() {
         <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:400,gap:20}}>
           <div style={{fontSize:56}}>👥</div>
           <div style={{fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:24,fontWeight:800,textAlign:"center"}}>Start Collaborating</div>
-          <div style={{color:"#6B7280",fontSize:14,textAlign:"center",maxWidth:320}}>Create a workspace to invite teammates, assign tasks, and track progress together.</div>
+          <div style={{color:"var(--text3)",fontSize:14,textAlign:"center",maxWidth:320}}>Create a workspace to invite teammates, assign tasks, and track progress together.</div>
           <div style={{display:"flex",gap:12}}>
             <button onClick={()=>setShowCreate(true)} style={{padding:"12px 24px",background:"linear-gradient(135deg,#FF6B35,#FF8C5A)",border:"none",borderRadius:12,color:"#fff",fontWeight:800,fontSize:14,cursor:"pointer",fontFamily:"inherit"}}>+ Create Workspace</button>
-            <button onClick={()=>setShowJoin(true)} style={{padding:"12px 24px",background:"transparent",border:"1px solid rgba(255,255,255,0.1)",borderRadius:12,color:"#9CA3AF",fontWeight:700,fontSize:14,cursor:"pointer",fontFamily:"inherit"}}>Join with Code</button>
+            <button onClick={()=>setShowJoin(true)} style={{padding:"12px 24px",background:"transparent",border:"1px solid rgba(255,255,255,0.1)",borderRadius:12,color:"var(--text2)",fontWeight:700,fontSize:14,cursor:"pointer",fontFamily:"inherit"}}>Join with Code</button>
           </div>
         </div>
       )}
@@ -202,30 +202,30 @@ export default function TeamPage() {
       {workspaces.length>0 && (
         <>
           {/* Workspace header */}
-          <div style={{background:"linear-gradient(135deg,#0F0F1C,#13102A)",border:"1px solid rgba(255,255,255,0.06)",borderRadius:16,padding:"18px 22px",marginBottom:16,display:"flex",alignItems:"center",gap:14}}>
+          <div style={{background:"linear-gradient(135deg,#0F0F1C,#13102A)",border:"1px solid var(--border)",borderRadius:16,padding:"18px 22px",marginBottom:16,display:"flex",alignItems:"center",gap:14}}>
             <div style={{width:46,height:46,borderRadius:12,background:"linear-gradient(135deg,#FF6B35,#8B5CF6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>🏢</div>
             <div style={{flex:1,minWidth:0}}>
               <div style={{fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:18,fontWeight:800}}>{activeWs?.name}</div>
-              <div style={{fontSize:12,color:"#6B7280",marginTop:2}}>{members.length} members · {tasks.length} tasks</div>
+              <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>{members.length} members · {tasks.length} tasks</div>
             </div>
             {/* Workspace selector */}
             {workspaces.length>1&&(
-              <select value={activeWs?.id} onChange={e=>setActiveWs(workspaces.find(w=>w.id===e.target.value))} style={{background:"#13131F",border:"1px solid rgba(255,255,255,0.08)",borderRadius:9,color:"#E5E7EB",padding:"6px 10px",fontSize:12,fontFamily:"inherit",cursor:"pointer"}}>
+              <select value={activeWs?.id} onChange={e=>setActiveWs(workspaces.find(w=>w.id===e.target.value))} style={{background:"var(--surface2)",border:"1px solid var(--border)",borderRadius:9,color:"var(--text)",padding:"6px 10px",fontSize:12,fontFamily:"inherit",cursor:"pointer"}}>
                 {workspaces.map(w=><option key={w.id} value={w.id}>{w.name}</option>)}
               </select>
             )}
             {/* Invite code */}
             <div style={{display:"flex",alignItems:"center",gap:8}}>
-              <div style={{fontSize:11,color:"#6B7280"}}>Invite:</div>
+              <div style={{fontSize:11,color:"var(--text3)"}}>Invite:</div>
               <div style={{fontFamily:"monospace",fontSize:14,fontWeight:800,color:"#FF6B35",background:"rgba(255,107,53,0.1)",padding:"4px 10px",borderRadius:8,border:"1px solid rgba(255,107,53,0.2)"}}>{activeWs?.inviteCode}</div>
-              <button onClick={copyInvite} style={{padding:"4px 10px",background:"transparent",border:"1px solid rgba(255,255,255,0.08)",borderRadius:8,color:copied?"#10B981":"#9CA3AF",fontSize:11,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>{copied?"Copied!":"Copy"}</button>
+              <button onClick={copyInvite} style={{padding:"4px 10px",background:"transparent",border:"1px solid var(--border)",borderRadius:8,color:copied?"#10B981":"#9CA3AF",fontSize:11,cursor:"pointer",fontFamily:"inherit",fontWeight:700}}>{copied?"Copied!":"Copy"}</button>
             </div>
             {/* Members */}
             <div style={{display:"flex",marginLeft:4}}>
               {members.slice(0,5).map((m,i)=><div key={m.uid} style={{marginLeft:i?-8:0,border:"2px solid #0F0F1C",borderRadius:"50%"}}><Avatar name={m.name||m.uid} size={30}/></div>)}
-              {members.length>5&&<div style={{width:30,height:30,borderRadius:"50%",background:"#1A1A2E",border:"2px solid #0F0F1C",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"#6B7280",marginLeft:-8}}>+{members.length-5}</div>}
+              {members.length>5&&<div style={{width:30,height:30,borderRadius:"50%",background:"var(--surface3)",border:"2px solid #0F0F1C",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"var(--text3)",marginLeft:-8}}>+{members.length-5}</div>}
             </div>
-            <button onClick={()=>setShowCreate(true)} style={{padding:"7px 14px",background:"rgba(255,255,255,0.05)",border:"1px solid rgba(255,255,255,0.08)",borderRadius:9,color:"#9CA3AF",fontSize:12,cursor:"pointer",fontFamily:"inherit",fontWeight:600}}>+ New</button>
+            <button onClick={()=>setShowCreate(true)} style={{padding:"7px 14px",background:"rgba(255,255,255,0.05)",border:"1px solid var(--border)",borderRadius:9,color:"var(--text2)",fontSize:12,cursor:"pointer",fontFamily:"inherit",fontWeight:600}}>+ New</button>
           </div>
 
           {/* Toolbar */}
@@ -239,15 +239,15 @@ export default function TeamPage() {
 
           {/* Add task form */}
           {addingTask&&(
-            <div style={{background:"#0F0F1C",border:"1px solid rgba(255,255,255,0.1)",borderRadius:14,padding:"16px 18px",marginBottom:16,display:"flex",gap:10,flexWrap:"wrap",alignItems:"flex-end"}}>
+            <div style={{background:"var(--surface)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:14,padding:"16px 18px",marginBottom:16,display:"flex",gap:10,flexWrap:"wrap",alignItems:"flex-end"}}>
               <input value={newTask.title} onChange={e=>setNewTask(t=>({...t,title:e.target.value}))} onKeyDown={e=>e.key==="Enter"&&createTask()} placeholder="Task title..." autoFocus
-                style={{flex:2,minWidth:200,background:"#13131F",border:"1px solid rgba(255,255,255,0.08)",borderRadius:9,color:"#E5E7EB",fontSize:13,padding:"9px 14px",fontFamily:"inherit",outline:"none"}} />
-              <select value={newTask.priority} onChange={e=>setNewTask(t=>({...t,priority:e.target.value}))} style={{background:"#13131F",border:"1px solid rgba(255,255,255,0.08)",borderRadius:9,color:"#E5E7EB",padding:"9px 10px",fontFamily:"inherit",fontSize:12}}>
+                style={{flex:2,minWidth:200,background:"var(--surface2)",border:"1px solid var(--border)",borderRadius:9,color:"var(--text)",fontSize:13,padding:"9px 14px",fontFamily:"inherit",outline:"none"}} />
+              <select value={newTask.priority} onChange={e=>setNewTask(t=>({...t,priority:e.target.value}))} style={{background:"var(--surface2)",border:"1px solid var(--border)",borderRadius:9,color:"var(--text)",padding:"9px 10px",fontFamily:"inherit",fontSize:12}}>
                 <option value="high">🔴 High</option><option value="medium">🟡 Medium</option><option value="low">🟢 Low</option>
               </select>
-              <input type="date" value={newTask.due} onChange={e=>setNewTask(t=>({...t,due:e.target.value}))} style={{background:"#13131F",border:"1px solid rgba(255,255,255,0.08)",borderRadius:9,color:"#9CA3AF",padding:"9px 10px",fontFamily:"inherit",fontSize:12,colorScheme:"dark"}} />
+              <input type="date" value={newTask.due} onChange={e=>setNewTask(t=>({...t,due:e.target.value}))} style={{background:"var(--surface2)",border:"1px solid var(--border)",borderRadius:9,color:"var(--text2)",padding:"9px 10px",fontFamily:"inherit",fontSize:12,colorScheme:"dark"}} />
               <button onClick={createTask} style={{padding:"9px 18px",background:"#FF6B35",border:"none",borderRadius:9,color:"#fff",fontWeight:800,cursor:"pointer",fontFamily:"inherit",fontSize:13}}>Add</button>
-              <button onClick={()=>setAddingTask(false)} style={{padding:"9px 14px",background:"transparent",border:"1px solid rgba(255,255,255,0.08)",borderRadius:9,color:"#6B7280",cursor:"pointer",fontFamily:"inherit",fontSize:12}}>Cancel</button>
+              <button onClick={()=>setAddingTask(false)} style={{padding:"9px 14px",background:"transparent",border:"1px solid var(--border)",borderRadius:9,color:"var(--text3)",cursor:"pointer",fontFamily:"inherit",fontSize:12}}>Cancel</button>
             </div>
           )}
 
@@ -257,11 +257,11 @@ export default function TeamPage() {
               {STATUSES.map(status=>{
                 const cols=tasks.filter(t=>t.status===status||(status==="todo"&&!t.status));
                 return (
-                  <div key={status} style={{background:"#0A0A14",border:"1px solid rgba(255,255,255,0.05)",borderRadius:14,padding:"12px 12px"}}>
+                  <div key={status} style={{background:"var(--surface)",border:"1px solid rgba(255,255,255,0.05)",borderRadius:14,padding:"12px 12px"}}>
                     <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
                       <div style={{width:8,height:8,borderRadius:"50%",background:STATUS_COLOR[status]}}/>
-                      <div style={{fontSize:12,fontWeight:800,color:"#9CA3AF",textTransform:"capitalize"}}>{status.replace("-"," ")}</div>
-                      <div style={{marginLeft:"auto",fontSize:11,background:"rgba(255,255,255,0.06)",color:"#6B7280",borderRadius:20,padding:"1px 8px",fontWeight:700}}>{cols.length}</div>
+                      <div style={{fontSize:12,fontWeight:800,color:"var(--text2)",textTransform:"capitalize"}}>{status.replace("-"," ")}</div>
+                      <div style={{marginLeft:"auto",fontSize:11,background:"rgba(255,255,255,0.06)",color:"var(--text3)",borderRadius:20,padding:"1px 8px",fontWeight:700}}>{cols.length}</div>
                     </div>
                     {cols.map(t=><TaskCard key={t.id} task={t} members={members} onClick={()=>setSelTask(t)}/>)}
                     {cols.length===0&&<div style={{textAlign:"center",color:"#2A2A3A",fontSize:24,padding:"16px 0"}}>+</div>}
@@ -273,8 +273,8 @@ export default function TeamPage() {
 
           {/* LIST VIEW */}
           {view==="list"&&(
-            <div style={{background:"#0A0A14",border:"1px solid rgba(255,255,255,0.05)",borderRadius:14,overflow:"hidden"}}>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 100px 100px 80px 40px",padding:"10px 16px",borderBottom:"1px solid rgba(255,255,255,0.05)",fontSize:11,fontWeight:800,color:"#4B5563",textTransform:"uppercase",letterSpacing:"0.8px"}}>
+            <div style={{background:"var(--surface)",border:"1px solid rgba(255,255,255,0.05)",borderRadius:14,overflow:"hidden"}}>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 100px 100px 80px 40px",padding:"10px 16px",borderBottom:"1px solid rgba(255,255,255,0.05)",fontSize:11,fontWeight:800,color:"var(--text3)",textTransform:"uppercase",letterSpacing:"0.8px"}}>
                 <div>Task</div><div>Status</div><div>Assignee</div><div>Due</div><div>Pri</div>
               </div>
               {tasks.map(t=>{
@@ -286,11 +286,11 @@ export default function TeamPage() {
                     <div style={{fontSize:13,fontWeight:600,color:t.done?"#6B7280":"#E5E7EB",display:"flex",alignItems:"center",gap:8}}>
                       <div style={{width:6,height:6,borderRadius:"50%",background:PRI[t.priority]||"#6B7280",flexShrink:0}}/>
                       {t.title}
-                      {t.comments?.length>0&&<span style={{fontSize:11,color:"#4B5563"}}>💬{t.comments.length}</span>}
+                      {t.comments?.length>0&&<span style={{fontSize:11,color:"var(--text3)"}}>💬{t.comments.length}</span>}
                     </div>
                     <div><span style={{fontSize:11,padding:"2px 8px",background:`${STATUS_COLOR[t.status]||"#6B7280"}20`,color:STATUS_COLOR[t.status]||"#6B7280",borderRadius:12,fontWeight:700}}>{(t.status||"todo").replace("-"," ")}</span></div>
                     <div>{assignee?<Avatar name={assignee.name||assignee.uid} size={22}/>:<span style={{fontSize:11,color:"#2A2A3A"}}>—</span>}</div>
-                    <div style={{fontSize:12,color:"#6B7280"}}>{t.due||"—"}</div>
+                    <div style={{fontSize:12,color:"var(--text3)"}}>{t.due||"—"}</div>
                     <div style={{width:10,height:10,borderRadius:"50%",background:PRI[t.priority]||"#6B7280",marginTop:3}}/>
                   </div>
                 );
@@ -301,14 +301,14 @@ export default function TeamPage() {
 
           {/* ACTIVITY VIEW */}
           {view==="activity"&&(
-            <div style={{background:"#0A0A14",border:"1px solid rgba(255,255,255,0.05)",borderRadius:14,overflow:"hidden"}}>
-              <div style={{padding:"14px 18px",borderBottom:"1px solid rgba(255,255,255,0.05)",fontSize:11,fontWeight:800,color:"#4B5563",textTransform:"uppercase",letterSpacing:"0.8px"}}>Recent Activity</div>
+            <div style={{background:"var(--surface)",border:"1px solid rgba(255,255,255,0.05)",borderRadius:14,overflow:"hidden"}}>
+              <div style={{padding:"14px 18px",borderBottom:"1px solid rgba(255,255,255,0.05)",fontSize:11,fontWeight:800,color:"var(--text3)",textTransform:"uppercase",letterSpacing:"0.8px"}}>Recent Activity</div>
               {activity.map(a=>(
                 <div key={a.id} style={{display:"flex",gap:12,padding:"12px 18px",borderBottom:"1px solid rgba(255,255,255,0.03)"}}>
                   <Avatar name={members.find(m=>m.uid===a.uid)?.name||a.uid} size={30}/>
                   <div>
                     <div style={{fontSize:13,color:"#D1D5DB"}}>{a.text}</div>
-                    <div style={{fontSize:11,color:"#4B5563",marginTop:3}}>
+                    <div style={{fontSize:11,color:"var(--text3)",marginTop:3}}>
                       {a.createdAt?.toDate?.()?new Date(a.createdAt.toDate()).toLocaleString("en-IN",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}):"Just now"}
                     </div>
                   </div>
@@ -323,21 +323,21 @@ export default function TeamPage() {
       {/* Create Workspace Modal */}
       {showCreate&&(
         <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.8)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center"}} onClick={e=>{if(e.target===e.currentTarget)setShowCreate(false);}}>
-          <div style={{background:"#0F0F1C",border:"1px solid rgba(255,255,255,0.1)",borderRadius:18,padding:"28px",width:"100%",maxWidth:440}}>
+          <div style={{background:"var(--surface)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:18,padding:"28px",width:"100%",maxWidth:440}}>
             <div style={{fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:20,fontWeight:800,marginBottom:20}}>🏢 Create Workspace</div>
             <div style={{marginBottom:14}}>
-              <div style={{fontSize:12,color:"#6B7280",fontWeight:600,marginBottom:6}}>Workspace Name *</div>
+              <div style={{fontSize:12,color:"var(--text3)",fontWeight:600,marginBottom:6}}>Workspace Name *</div>
               <input value={wsName} onChange={e=>setWsName(e.target.value)} placeholder="e.g. Aryavart Ventures" autoFocus
-                style={{width:"100%",background:"#13131F",border:"1px solid rgba(255,255,255,0.08)",borderRadius:10,color:"#E5E7EB",fontSize:14,padding:"11px 14px",fontFamily:"inherit",outline:"none",boxSizing:"border-box"}} />
+                style={{width:"100%",background:"var(--surface2)",border:"1px solid var(--border)",borderRadius:10,color:"var(--text)",fontSize:14,padding:"11px 14px",fontFamily:"inherit",outline:"none",boxSizing:"border-box"}} />
             </div>
             <div style={{marginBottom:22}}>
-              <div style={{fontSize:12,color:"#6B7280",fontWeight:600,marginBottom:6}}>Description</div>
+              <div style={{fontSize:12,color:"var(--text3)",fontWeight:600,marginBottom:6}}>Description</div>
               <textarea value={wsDesc} onChange={e=>setWsDesc(e.target.value)} placeholder="What does your team work on?" rows={2}
-                style={{width:"100%",background:"#13131F",border:"1px solid rgba(255,255,255,0.08)",borderRadius:10,color:"#E5E7EB",fontSize:13,padding:"11px 14px",fontFamily:"inherit",outline:"none",resize:"none",boxSizing:"border-box"}} />
+                style={{width:"100%",background:"var(--surface2)",border:"1px solid var(--border)",borderRadius:10,color:"var(--text)",fontSize:13,padding:"11px 14px",fontFamily:"inherit",outline:"none",resize:"none",boxSizing:"border-box"}} />
             </div>
             <div style={{display:"flex",gap:10}}>
               <button onClick={createWs} style={{flex:1,padding:"12px",background:"linear-gradient(135deg,#FF6B35,#FF8C5A)",border:"none",borderRadius:11,color:"#fff",fontWeight:800,fontSize:14,cursor:"pointer",fontFamily:"inherit"}}>Create Workspace</button>
-              <button onClick={()=>setShowCreate(false)} style={{padding:"12px 18px",background:"transparent",border:"1px solid rgba(255,255,255,0.08)",borderRadius:11,color:"#9CA3AF",cursor:"pointer",fontFamily:"inherit"}}>Cancel</button>
+              <button onClick={()=>setShowCreate(false)} style={{padding:"12px 18px",background:"transparent",border:"1px solid var(--border)",borderRadius:11,color:"var(--text2)",cursor:"pointer",fontFamily:"inherit"}}>Cancel</button>
             </div>
           </div>
         </div>
@@ -346,14 +346,14 @@ export default function TeamPage() {
       {/* Join Workspace Modal */}
       {showJoin&&(
         <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.8)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center"}} onClick={e=>{if(e.target===e.currentTarget)setShowJoin(false);}}>
-          <div style={{background:"#0F0F1C",border:"1px solid rgba(255,255,255,0.1)",borderRadius:18,padding:"28px",width:"100%",maxWidth:380}}>
+          <div style={{background:"var(--surface)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:18,padding:"28px",width:"100%",maxWidth:380}}>
             <div style={{fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:20,fontWeight:800,marginBottom:8}}>🔑 Join Workspace</div>
-            <div style={{fontSize:13,color:"#6B7280",marginBottom:20}}>Ask your team admin for the 6-character invite code</div>
+            <div style={{fontSize:13,color:"var(--text3)",marginBottom:20}}>Ask your team admin for the 6-character invite code</div>
             <input value={inviteCode} onChange={e=>setInviteCode(e.target.value.toUpperCase())} placeholder="e.g. XK49PZ" maxLength={6} autoFocus
-              style={{width:"100%",background:"#13131F",border:"1px solid rgba(255,255,255,0.08)",borderRadius:10,color:"#FF6B35",fontSize:22,fontWeight:800,padding:"14px 18px",fontFamily:"monospace",outline:"none",letterSpacing:"6px",textAlign:"center",boxSizing:"border-box",marginBottom:18}} />
+              style={{width:"100%",background:"var(--surface2)",border:"1px solid var(--border)",borderRadius:10,color:"#FF6B35",fontSize:22,fontWeight:800,padding:"14px 18px",fontFamily:"monospace",outline:"none",letterSpacing:"6px",textAlign:"center",boxSizing:"border-box",marginBottom:18}} />
             <div style={{display:"flex",gap:10}}>
               <button onClick={joinWs} style={{flex:1,padding:"12px",background:"linear-gradient(135deg,#818CF8,#6366F1)",border:"none",borderRadius:11,color:"#fff",fontWeight:800,fontSize:14,cursor:"pointer",fontFamily:"inherit"}}>Join Workspace</button>
-              <button onClick={()=>setShowJoin(false)} style={{padding:"12px 18px",background:"transparent",border:"1px solid rgba(255,255,255,0.08)",borderRadius:11,color:"#9CA3AF",cursor:"pointer",fontFamily:"inherit"}}>Cancel</button>
+              <button onClick={()=>setShowJoin(false)} style={{padding:"12px 18px",background:"transparent",border:"1px solid var(--border)",borderRadius:11,color:"var(--text2)",cursor:"pointer",fontFamily:"inherit"}}>Cancel</button>
             </div>
           </div>
         </div>

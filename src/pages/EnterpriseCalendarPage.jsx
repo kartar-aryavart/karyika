@@ -16,7 +16,7 @@ function TaskPill({ task, compact=false }) {
       border:`1.5px solid ${PRI_COLOR[task.priority]||"#FF6B35"}66`,
       borderLeft:`3px solid ${PRI_COLOR[task.priority]||"#FF6B35"}`,
       borderRadius:6, padding:compact?"2px 6px":"4px 8px",
-      fontSize:compact?10:11, fontWeight:600, color:"#E5E7EB",
+      fontSize:compact?10:11, fontWeight:600, color:"var(--text)",
       overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap",
       cursor:"pointer", transition:"all 0.15s",
     }}
@@ -39,10 +39,10 @@ function MonthView({ year, month, tasks, habits, onDayClick, onTaskDrop }) {
     <div style={{ flex:1, display:"flex", flexDirection:"column" }}>
       {/* Day headers */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", borderBottom:"1px solid #1E1E2E" }}>
-        {DAYS_SHORT.map(d => <div key={d} style={{ padding:"10px 0", textAlign:"center", fontSize:11, fontWeight:800, color:"#6B7280", letterSpacing:"0.5px" }}>{d}</div>)}
+        {DAYS_SHORT.map(d => <div key={d} style={{ padding:"10px 0", textAlign:"center", fontSize:11, fontWeight:800, color:"var(--text3)", letterSpacing:"0.5px" }}>{d}</div>)}
       </div>
       <div style={{ flex:1, display:"grid", gridTemplateColumns:"repeat(7,1fr)", gridTemplateRows:`repeat(${Math.ceil((firstDay+dim)/7)},1fr)`, gap:0 }}>
-        {Array.from({length:firstDay}).map((_,i) => <div key={`e${i}`} style={{ background:"#0A0A14", borderRight:"1px solid #1E1E2E", borderBottom:"1px solid #1E1E2E" }} />)}
+        {Array.from({length:firstDay}).map((_,i) => <div key={`e${i}`} style={{ background:"var(--surface)", borderRight:"1px solid #1E1E2E", borderBottom:"1px solid #1E1E2E" }} />)}
         {Array.from({length:dim},(_,i) => {
           const d = i+1; const dateStr = ds(d);
           const dayTasks = tasks.filter(t => t.due===dateStr);
@@ -85,14 +85,14 @@ function WeekView({ currentDate, tasks }) {
         {weekDays.map(d => {
           const dateStr=ds(d); const isToday=dateStr===td;
           return <div key={dateStr} style={{ padding:"10px 8px", textAlign:"center", borderLeft:"1px solid #1E1E2E" }}>
-            <div style={{ fontSize:10, color:"#6B7280", fontWeight:700 }}>{DAYS_SHORT[d.getDay()]}</div>
+            <div style={{ fontSize:10, color:"var(--text3)", fontWeight:700 }}>{DAYS_SHORT[d.getDay()]}</div>
             <div style={{ width:28, height:28, borderRadius:"50%", background:isToday?"#FF6B35":"transparent", display:"flex", alignItems:"center", justifyContent:"center", margin:"4px auto 0", fontSize:14, fontWeight:isToday?800:500, color:isToday?"#fff":"#E5E7EB" }}>{d.getDate()}</div>
           </div>;
         })}
       </div>
       {HOURS.map(h => (
         <div key={h} style={{ display:"grid", gridTemplateColumns:"60px repeat(7,1fr)", minHeight:48, borderBottom:"1px solid #0F0F1A" }}>
-          <div style={{ padding:"4px 8px 0", fontSize:10, color:"#4B5563", fontWeight:600, textAlign:"right" }}>{h===0?"":h<12?`${h}am`:h===12?"12pm":`${h-12}pm`}</div>
+          <div style={{ padding:"4px 8px 0", fontSize:10, color:"var(--text3)", fontWeight:600, textAlign:"right" }}>{h===0?"":h<12?`${h}am`:h===12?"12pm":`${h-12}pm`}</div>
           {weekDays.map(d => {
             const dateStr=ds(d);
             const hTasks = tasks.filter(t=>t.due===dateStr && (t.dueTime||"").startsWith(String(h).padStart(2,"0")));
@@ -118,9 +118,9 @@ function DayView({ currentDate, tasks }) {
     <div style={{ flex:1, overflowY:"auto" }}>
       {noTime.length>0 && (
         <div style={{ padding:"12px 20px", borderBottom:"1px solid #1E1E2E" }}>
-          <div style={{ fontSize:11, fontWeight:800, color:"#6B7280", marginBottom:8, textTransform:"uppercase", letterSpacing:"1px" }}>All Day</div>
+          <div style={{ fontSize:11, fontWeight:800, color:"var(--text3)", marginBottom:8, textTransform:"uppercase", letterSpacing:"1px" }}>All Day</div>
           <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
-            {noTime.map(t=><div key={t.id} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 12px", background:"#13131F", border:"1px solid #1E1E2E", borderLeft:`3px solid ${PRI_COLOR[t.priority]||"#FF6B35"}`, borderRadius:8 }}>
+            {noTime.map(t=><div key={t.id} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 12px", background:"var(--surface2)", border:"1px solid #1E1E2E", borderLeft:`3px solid ${PRI_COLOR[t.priority]||"#FF6B35"}`, borderRadius:8 }}>
               <span style={{ fontSize:13, fontWeight:600, flex:1 }}>{t.done?"✓ ":""}{t.title}</span>
               <span style={{ fontSize:11, color:PRI_COLOR[t.priority], fontWeight:700 }}>● {t.priority}</span>
             </div>)}
@@ -130,12 +130,12 @@ function DayView({ currentDate, tasks }) {
       <div style={{ display:"grid", gridTemplateColumns:"60px 1fr", overflow:"auto" }}>
         {HOURS.map(h=>(
           <div key={h} style={{ display:"contents" }}>
-            <div style={{ padding:"10px 10px 0", fontSize:11, color:"#4B5563", textAlign:"right", borderBottom:"1px solid #0F0F1A" }}>{h===0?"":h<12?`${h}am`:h===12?"12pm":`${h-12}pm`}</div>
+            <div style={{ padding:"10px 10px 0", fontSize:11, color:"var(--text3)", textAlign:"right", borderBottom:"1px solid #0F0F1A" }}>{h===0?"":h<12?`${h}am`:h===12?"12pm":`${h-12}pm`}</div>
             <div style={{ borderLeft:"1px solid #1E1E2E", borderBottom:"1px solid #0F0F1A", minHeight:52, padding:"4px 10px", position:"relative" }}>
               {withTime.filter(t=>(t.dueTime||"").startsWith(String(h).padStart(2,"0"))).map(t=>(
                 <div key={t.id} style={{ padding:"6px 10px", background:`${PRI_COLOR[t.priority]||"#FF6B35"}22`, border:`1.5px solid ${PRI_COLOR[t.priority]||"#FF6B35"}66`, borderLeft:`3px solid ${PRI_COLOR[t.priority]||"#FF6B35"}`, borderRadius:8, marginBottom:4 }}>
-                  <div style={{ fontSize:13, fontWeight:700, color:"#F3F4F6" }}>{t.title}</div>
-                  <div style={{ fontSize:11, color:"#9CA3AF" }}>{t.dueTime} · {t.estimatedTime?`${t.estimatedTime}m`:t.priority}</div>
+                  <div style={{ fontSize:13, fontWeight:700, color:"var(--text)" }}>{t.title}</div>
+                  <div style={{ fontSize:11, color:"var(--text2)" }}>{t.dueTime} · {t.estimatedTime?`${t.estimatedTime}m`:t.priority}</div>
                 </div>
               ))}
             </div>
@@ -195,15 +195,15 @@ export default function EnterpriseCalendarPage({ tasks=[], habits=[] }) {
   const selDayTasks = selectedDay ? tasks.filter(t=>t.due===selectedDay) : [];
 
   return (
-    <div style={{ display:"flex", flexDirection:"column", height:"calc(100vh - 108px)", background:"#09090E", borderRadius:16, overflow:"hidden", border:"1px solid #1E1E2E" }}>
+    <div style={{ display:"flex", flexDirection:"column", height:"calc(100vh - 108px)", background:"var(--bg)", borderRadius:16, overflow:"hidden", border:"1px solid #1E1E2E" }}>
       {toast && <div style={{ position:"fixed",bottom:24,right:24,background:"#10B981",color:"#fff",padding:"12px 20px",borderRadius:12,fontWeight:700,fontSize:14,zIndex:9999 }}>{toast}</div>}
 
       {/* Toolbar */}
       <div style={{ display:"flex", alignItems:"center", gap:10, padding:"12px 18px", borderBottom:"1px solid #1E1E2E", background:"#0D0D18", flexShrink:0 }}>
-        <button onClick={goToday} style={{ padding:"6px 14px",border:"1px solid #2A2A3A",borderRadius:8,background:"transparent",color:"#9CA3AF",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit" }}>Today</button>
+        <button onClick={goToday} style={{ padding:"6px 14px",border:"1px solid #2A2A3A",borderRadius:8,background:"transparent",color:"var(--text2)",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit" }}>Today</button>
         <div style={{ display:"flex", gap:4 }}>
-          <button onClick={prev} style={{ padding:"6px 10px",border:"1px solid #1E1E2E",borderRadius:8,background:"#13131F",color:"#9CA3AF",fontSize:14,cursor:"pointer" }}>‹</button>
-          <button onClick={next} style={{ padding:"6px 10px",border:"1px solid #1E1E2E",borderRadius:8,background:"#13131F",color:"#9CA3AF",fontSize:14,cursor:"pointer" }}>›</button>
+          <button onClick={prev} style={{ padding:"6px 10px",border:"1px solid #1E1E2E",borderRadius:8,background:"var(--surface2)",color:"var(--text2)",fontSize:14,cursor:"pointer" }}>‹</button>
+          <button onClick={next} style={{ padding:"6px 10px",border:"1px solid #1E1E2E",borderRadius:8,background:"var(--surface2)",color:"var(--text2)",fontSize:14,cursor:"pointer" }}>›</button>
         </div>
         <div style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:800, fontSize:15, flex:1 }}>{headerTitle()}</div>
         <div style={{ display:"flex", gap:4 }}>
@@ -211,7 +211,7 @@ export default function EnterpriseCalendarPage({ tasks=[], habits=[] }) {
             <button key={v} onClick={()=>setView(v)} style={{ padding:"6px 12px",border:"1px solid",borderColor:view===v?"#FF6B35":"#1E1E2E",borderRadius:8,background:view===v?"rgba(255,107,53,0.1)":"transparent",color:view===v?"#FF6B35":"#6B7280",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",textTransform:"capitalize" }}>{v}</button>
           ))}
         </div>
-        <div style={{ fontSize:12, color:"#6B7280", background:"#13131F", padding:"6px 12px", borderRadius:8, border:"1px solid #1E1E2E" }}>
+        <div style={{ fontSize:12, color:"var(--text3)", background:"var(--surface2)", padding:"6px 12px", borderRadius:8, border:"1px solid #1E1E2E" }}>
           {tasks.filter(t=>t.due).length} scheduled · {tasks.filter(t=>!t.done).length} pending
         </div>
       </div>
@@ -229,21 +229,21 @@ export default function EnterpriseCalendarPage({ tasks=[], habits=[] }) {
           <div style={{ width:260, borderLeft:"1px solid #1E1E2E", background:"#0D0D18", display:"flex", flexDirection:"column", flexShrink:0 }}>
             <div style={{ padding:"14px 16px", borderBottom:"1px solid #1E1E2E" }}>
               <div style={{ fontFamily:"'Cabinet Grotesk',sans-serif", fontWeight:800, fontSize:14 }}>{new Date(selectedDay+"T00:00").toLocaleDateString("en-IN",{weekday:"long",month:"long",day:"numeric"})}</div>
-              <div style={{ fontSize:12, color:"#6B7280", marginTop:3 }}>{selDayTasks.length} tasks</div>
+              <div style={{ fontSize:12, color:"var(--text3)", marginTop:3 }}>{selDayTasks.length} tasks</div>
             </div>
             <div style={{ flex:1, overflowY:"auto", padding:"10px 12px", display:"flex", flexDirection:"column", gap:6 }}>
               {selDayTasks.map(t=>(
-                <div key={t.id} style={{ padding:"8px 10px", background:"#13131F", border:"1px solid #1E1E2E", borderLeft:`3px solid ${PRI_COLOR[t.priority]||"#FF6B35"}`, borderRadius:9 }}>
+                <div key={t.id} style={{ padding:"8px 10px", background:"var(--surface2)", border:"1px solid #1E1E2E", borderLeft:`3px solid ${PRI_COLOR[t.priority]||"#FF6B35"}`, borderRadius:9 }}>
                   <div style={{ fontSize:12, fontWeight:600, color:t.done?"#6B7280":"#E5E7EB", textDecoration:t.done?"line-through":"none" }}>{t.title}</div>
                   <div style={{ fontSize:10, color:PRI_COLOR[t.priority], marginTop:3, fontWeight:700 }}>● {t.priority}</div>
                 </div>
               ))}
-              {selDayTasks.length===0 && <div style={{ textAlign:"center",color:"#4B5563",fontSize:12,padding:"24px 0" }}>Nothing here yet</div>}
+              {selDayTasks.length===0 && <div style={{ textAlign:"center",color:"var(--text3)",fontSize:12,padding:"24px 0" }}>Nothing here yet</div>}
             </div>
             <div style={{ padding:"10px 12px", borderTop:"1px solid #1E1E2E" }}>
               <div style={{ display:"flex", gap:6 }}>
                 <input value={quickAdd} onChange={e=>setQuickAdd(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addQuick()} placeholder="Quick add task..."
-                  style={{ flex:1,background:"#13131F",border:"1px solid #1E1E2E",borderRadius:8,color:"#E5E7EB",fontSize:12,padding:"7px 10px",fontFamily:"inherit",outline:"none" }} />
+                  style={{ flex:1,background:"var(--surface2)",border:"1px solid #1E1E2E",borderRadius:8,color:"var(--text)",fontSize:12,padding:"7px 10px",fontFamily:"inherit",outline:"none" }} />
                 <button onClick={addQuick} style={{ padding:"7px 10px",border:"none",borderRadius:8,background:"#FF6B35",color:"#fff",cursor:"pointer",fontWeight:700,fontSize:14,fontFamily:"inherit" }}>+</button>
               </div>
             </div>

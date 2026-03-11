@@ -66,7 +66,7 @@ export default function AutomationsPage() {
     showToast("✅ Template added!");
   };
 
-  const Card = ({children,style={}}) => <div style={{ background:"#13131F",border:"1px solid #1E1E2E",borderRadius:14,padding:18,...style }}>{children}</div>;
+  const Card = ({children,style={}}) => <div style={{ background:"var(--surface2)",border:"1px solid #1E1E2E",borderRadius:14,padding:18,...style }}>{children}</div>;
 
   return (
     <div style={{ maxWidth:900, margin:"0 auto" }}>
@@ -75,7 +75,7 @@ export default function AutomationsPage() {
       <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20 }}>
         <div>
           <div style={{ fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:22,fontWeight:800 }}>🤖 Automations</div>
-          <div style={{ fontSize:13,color:"#6B7280",marginTop:3 }}>ClickUp-style workflow rules — set it and forget it</div>
+          <div style={{ fontSize:13,color:"var(--text3)",marginTop:3 }}>ClickUp-style workflow rules — set it and forget it</div>
         </div>
         <button onClick={()=>setShowForm(true)} style={{ padding:"10px 18px",border:"none",borderRadius:10,background:"linear-gradient(135deg,#FF6B35,#FF8C5A)",color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit" }}>+ New Rule</button>
       </div>
@@ -86,7 +86,7 @@ export default function AutomationsPage() {
           <Card key={s.label} style={{ textAlign:"center",padding:14 }}>
             <div style={{ fontSize:24 }}>{s.icon}</div>
             <div style={{ fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:26,fontWeight:800,color:"#FF6B35",marginTop:4 }}>{s.val}</div>
-            <div style={{ fontSize:12,color:"#6B7280" }}>{s.label}</div>
+            <div style={{ fontSize:12,color:"var(--text3)" }}>{s.label}</div>
           </Card>
         ))}
       </div>
@@ -99,8 +99,8 @@ export default function AutomationsPage() {
             <div key={p.name} style={{ display:"flex",alignItems:"center",gap:12,padding:"12px 14px",background:"#0D0D18",border:"1px solid #1E1E2E",borderRadius:10 }}>
               <span style={{ fontSize:24,flexShrink:0 }}>{p.icon}</span>
               <div style={{ flex:1,minWidth:0 }}>
-                <div style={{ fontWeight:600,fontSize:13,color:"#E5E7EB" }}>{p.name}</div>
-                <div style={{ fontSize:11,color:"#6B7280",marginTop:2 }}>{p.desc}</div>
+                <div style={{ fontWeight:600,fontSize:13,color:"var(--text)" }}>{p.name}</div>
+                <div style={{ fontSize:11,color:"var(--text3)",marginTop:2 }}>{p.desc}</div>
               </div>
               <button onClick={()=>addPreset(p)} style={{ padding:"5px 12px",border:"1px solid #FF6B35",borderRadius:8,background:"transparent",color:"#FF6B35",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",flexShrink:0 }}>Use</button>
             </div>
@@ -112,7 +112,7 @@ export default function AutomationsPage() {
       <Card>
         <div style={{ fontFamily:"'Cabinet Grotesk',sans-serif",fontWeight:800,fontSize:15,marginBottom:14 }}>📋 My Rules ({automations.length})</div>
         {automations.length===0 ? (
-          <div style={{ textAlign:"center",padding:"32px 20px",color:"#6B7280" }}>
+          <div style={{ textAlign:"center",padding:"32px 20px",color:"var(--text3)" }}>
             <div style={{ fontSize:40,marginBottom:10 }}>🤖</div>
             <div style={{ fontSize:14,fontWeight:600,marginBottom:6 }}>Koi automation nahi abhi tak</div>
             <div style={{ fontSize:12 }}>Upar se template use karo ya "+ New Rule" click karo</div>
@@ -124,8 +124,8 @@ export default function AutomationsPage() {
               return (
                 <div key={a.id} style={{ display:"flex",alignItems:"center",gap:12,padding:"12px 16px",background:"#0D0D18",border:`1px solid ${a.isActive?"rgba(16,185,129,0.25)":"#1E1E2E"}`,borderRadius:12,borderLeft:`3px solid ${a.isActive?"#10B981":"#4B5563"}` }}>
                   <div style={{ flex:1,minWidth:0 }}>
-                    <div style={{ fontWeight:600,fontSize:14,color:"#E5E7EB" }}>{a.name}</div>
-                    <div style={{ fontSize:12,color:"#6B7280",marginTop:3 }}>
+                    <div style={{ fontWeight:600,fontSize:14,color:"var(--text)" }}>{a.name}</div>
+                    <div style={{ fontSize:12,color:"var(--text3)",marginTop:3 }}>
                       {trigger?.icon} {trigger?.label} → {a.actions?.map(ac=>ACTIONS.find(x=>x.id===ac.id)?.label).filter(Boolean).join(", ")}
                     </div>
                     {a.runsCount>0&&<div style={{ fontSize:11,color:"#FF6B35",marginTop:2 }}>Ran {a.runsCount} times</div>}
@@ -147,23 +147,23 @@ export default function AutomationsPage() {
           <div style={{ background:"#0D0D18",border:"1px solid #2A2A3A",borderRadius:16,padding:24,width:"100%",maxWidth:480 }}>
             <div style={{ fontFamily:"'Cabinet Grotesk',sans-serif",fontWeight:800,fontSize:18,marginBottom:18 }}>🤖 New Automation Rule</div>
             <input value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} placeholder="Rule name..."
-              style={{ width:"100%",background:"#13131F",border:"1px solid #2A2A3A",borderRadius:10,color:"#E5E7EB",fontSize:14,padding:"10px 14px",fontFamily:"inherit",outline:"none",marginBottom:12,boxSizing:"border-box" }} />
+              style={{ width:"100%",background:"var(--surface2)",border:"1px solid #2A2A3A",borderRadius:10,color:"var(--text)",fontSize:14,padding:"10px 14px",fontFamily:"inherit",outline:"none",marginBottom:12,boxSizing:"border-box" }} />
             <div style={{ marginBottom:12 }}>
-              <div style={{ fontSize:12,color:"#6B7280",marginBottom:6,fontWeight:600 }}>WHEN (Trigger)</div>
+              <div style={{ fontSize:12,color:"var(--text3)",marginBottom:6,fontWeight:600 }}>WHEN (Trigger)</div>
               <select value={form.trigger} onChange={e=>setForm(f=>({...f,trigger:e.target.value}))}
-                style={{ width:"100%",background:"#13131F",border:"1px solid #2A2A3A",borderRadius:10,color:"#E5E7EB",fontSize:13,padding:"9px 12px",fontFamily:"inherit",outline:"none" }}>
+                style={{ width:"100%",background:"var(--surface2)",border:"1px solid #2A2A3A",borderRadius:10,color:"var(--text)",fontSize:13,padding:"9px 12px",fontFamily:"inherit",outline:"none" }}>
                 {TRIGGERS.map(t=><option key={t.id} value={t.id}>{t.icon} {t.label}</option>)}
               </select>
             </div>
             <div style={{ marginBottom:18 }}>
-              <div style={{ fontSize:12,color:"#6B7280",marginBottom:6,fontWeight:600 }}>THEN (Action)</div>
+              <div style={{ fontSize:12,color:"var(--text3)",marginBottom:6,fontWeight:600 }}>THEN (Action)</div>
               <select value={form.actions[0]?.id||"send_notification"} onChange={e=>setForm(f=>({...f,actions:[{id:e.target.value}]}))}
-                style={{ width:"100%",background:"#13131F",border:"1px solid #2A2A3A",borderRadius:10,color:"#E5E7EB",fontSize:13,padding:"9px 12px",fontFamily:"inherit",outline:"none" }}>
+                style={{ width:"100%",background:"var(--surface2)",border:"1px solid #2A2A3A",borderRadius:10,color:"var(--text)",fontSize:13,padding:"9px 12px",fontFamily:"inherit",outline:"none" }}>
                 {ACTIONS.map(a=><option key={a.id} value={a.id}>{a.icon} {a.label}</option>)}
               </select>
             </div>
             <div style={{ display:"flex",gap:10 }}>
-              <button onClick={()=>setShowForm(false)} style={{ flex:1,padding:"10px",border:"1px solid #2A2A3A",borderRadius:10,background:"transparent",color:"#9CA3AF",cursor:"pointer",fontFamily:"inherit",fontWeight:600 }}>Cancel</button>
+              <button onClick={()=>setShowForm(false)} style={{ flex:1,padding:"10px",border:"1px solid #2A2A3A",borderRadius:10,background:"transparent",color:"var(--text2)",cursor:"pointer",fontFamily:"inherit",fontWeight:600 }}>Cancel</button>
               <button onClick={save} style={{ flex:2,padding:"10px",border:"none",borderRadius:10,background:"linear-gradient(135deg,#FF6B35,#FF8C5A)",color:"#fff",cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:14 }}>Create Rule ✓</button>
             </div>
           </div>

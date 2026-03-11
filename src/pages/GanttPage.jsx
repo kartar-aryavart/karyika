@@ -62,7 +62,7 @@ export default function GanttPage({ tasks=[], projects=[] }) {
     });
   };
 
-  const Card = ({children,style={}}) => <div style={{ background:"#13131F",border:"1px solid #1E1E2E",borderRadius:14,padding:18,...style }}>{children}</div>;
+  const Card = ({children,style={}}) => <div style={{ background:"var(--surface2)",border:"1px solid #1E1E2E",borderRadius:14,padding:18,...style }}>{children}</div>;
   const PRI = { high:"#F43F5E", medium:"#F59E0B", low:"#10B981" };
 
   return (
@@ -85,7 +85,7 @@ export default function GanttPage({ tasks=[], projects=[] }) {
         <Card style={{ padding:0,overflow:"hidden" }}>
           {/* Days header */}
           <div style={{ display:"flex",borderBottom:"1px solid #1E1E2E" }}>
-            <div style={{ width:220,flexShrink:0,padding:"10px 16px",fontSize:11,fontWeight:700,color:"#6B7280",background:"#0D0D18",borderRight:"1px solid #1E1E2E" }}>TASK</div>
+            <div style={{ width:220,flexShrink:0,padding:"10px 16px",fontSize:11,fontWeight:700,color:"var(--text3)",background:"#0D0D18",borderRight:"1px solid #1E1E2E" }}>TASK</div>
             <div style={{ flex:1,display:"flex",overflow:"hidden" }}>
               {days.filter((_,i)=>i%3===0).map((d,i)=>(
                 <div key={i} style={{ flex:3,textAlign:"center",padding:"10px 4px",fontSize:10,fontWeight:700,color:d.toDateString()===today.toDateString()?"#FF6B35":"#6B7280",borderRight:"1px solid #1E1E2E",background:d.toDateString()===today.toDateString()?"rgba(255,107,53,0.05)":"transparent" }}>
@@ -96,7 +96,7 @@ export default function GanttPage({ tasks=[], projects=[] }) {
           </div>
 
           {tasksWithDates.length === 0 ? (
-            <div style={{ textAlign:"center",padding:"40px 20px",color:"#6B7280" }}>
+            <div style={{ textAlign:"center",padding:"40px 20px",color:"var(--text3)" }}>
               <div style={{ fontSize:32,marginBottom:10 }}>📅</div>
               <div>Tasks mein due dates add karo Gantt view ke liye</div>
             </div>
@@ -136,8 +136,8 @@ export default function GanttPage({ tasks=[], projects=[] }) {
                   <div key={task.id} style={{ padding:"12px 14px",background:"#0D0D18",border:`1px solid ${blocked?"rgba(244,63,94,0.3)":"#1E1E2E"}`,borderRadius:10 }}>
                     <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:deps.length?8:0 }}>
                       <span style={{ fontSize:14 }}>{blocked?"🚫":"○"}</span>
-                      <span style={{ fontSize:13,fontWeight:600,color:"#E5E7EB",flex:1 }}>{task.title}</span>
-                      <button onClick={()=>setDepModal(task.id)} style={{ padding:"3px 9px",border:"1px solid #2A2A3A",borderRadius:6,background:"transparent",color:"#9CA3AF",fontSize:11,cursor:"pointer",fontFamily:"inherit" }}>+ Dep</button>
+                      <span style={{ fontSize:13,fontWeight:600,color:"var(--text)",flex:1 }}>{task.title}</span>
+                      <button onClick={()=>setDepModal(task.id)} style={{ padding:"3px 9px",border:"1px solid #2A2A3A",borderRadius:6,background:"transparent",color:"var(--text2)",fontSize:11,cursor:"pointer",fontFamily:"inherit" }}>+ Dep</button>
                     </div>
                     {deps.map(dep=>(
                       <div key={dep.id} style={{ display:"flex",alignItems:"center",gap:6,marginLeft:22,marginBottom:4,fontSize:12 }}>
@@ -149,7 +149,7 @@ export default function GanttPage({ tasks=[], projects=[] }) {
                   </div>
                 );
               })}
-              {tasks.filter(t=>!t.done).length===0 && <div style={{ textAlign:"center",color:"#6B7280",fontSize:13,padding:16 }}>Koi pending task nahi</div>}
+              {tasks.filter(t=>!t.done).length===0 && <div style={{ textAlign:"center",color:"var(--text3)",fontSize:13,padding:16 }}>Koi pending task nahi</div>}
             </div>
           </Card>
 
@@ -163,7 +163,7 @@ export default function GanttPage({ tasks=[], projects=[] }) {
             ].map(s=>(
               <div key={s.label} style={{ display:"flex",alignItems:"center",gap:12,padding:"10px 0",borderBottom:"1px solid #1A1A2E" }}>
                 <span style={{ fontSize:20 }}>{s.icon}</span>
-                <span style={{ fontSize:13,color:"#9CA3AF",flex:1 }}>{s.label}</span>
+                <span style={{ fontSize:13,color:"var(--text2)",flex:1 }}>{s.label}</span>
                 <span style={{ fontFamily:"'Cabinet Grotesk',sans-serif",fontSize:22,fontWeight:800,color:s.color||"#F9FAFB" }}>{s.val}</span>
               </div>
             ))}
@@ -176,17 +176,17 @@ export default function GanttPage({ tasks=[], projects=[] }) {
         <div onClick={e=>e.target===e.currentTarget&&setDepModal(null)} style={{ position:"fixed",inset:0,background:"rgba(0,0,0,0.8)",backdropFilter:"blur(8px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:9999 }}>
           <div style={{ background:"#0D0D18",border:"1px solid #2A2A3A",borderRadius:16,padding:24,width:"100%",maxWidth:440 }}>
             <div style={{ fontFamily:"'Cabinet Grotesk',sans-serif",fontWeight:800,fontSize:16,marginBottom:14 }}>🔗 Add Dependency</div>
-            <div style={{ fontSize:13,color:"#9CA3AF",marginBottom:14 }}>"{tasks.find(t=>t.id===depModal)?.title}" must complete AFTER:</div>
+            <div style={{ fontSize:13,color:"var(--text2)",marginBottom:14 }}>"{tasks.find(t=>t.id===depModal)?.title}" must complete AFTER:</div>
             <div style={{ display:"flex",flexDirection:"column",gap:7,maxHeight:300,overflowY:"auto" }}>
               {tasks.filter(t=>t.id!==depModal&&!t.done&&!(tasks.find(x=>x.id===depModal)?.dependencies||[]).includes(t.id)).map(t=>(
-                <div key={t.id} onClick={()=>addDep(depModal,t.id)} style={{ padding:"10px 14px",background:"#13131F",border:"1px solid #1E1E2E",borderRadius:10,cursor:"pointer",transition:"all 0.15s" }}
+                <div key={t.id} onClick={()=>addDep(depModal,t.id)} style={{ padding:"10px 14px",background:"var(--surface2)",border:"1px solid #1E1E2E",borderRadius:10,cursor:"pointer",transition:"all 0.15s" }}
                   onMouseEnter={e=>e.currentTarget.style.borderColor="#FF6B35"} onMouseLeave={e=>e.currentTarget.style.borderColor="#1E1E2E"}>
-                  <div style={{ fontSize:13,fontWeight:500,color:"#E5E7EB" }}>{t.title}</div>
+                  <div style={{ fontSize:13,fontWeight:500,color:"var(--text)" }}>{t.title}</div>
                   <div style={{ fontSize:11,color:PRI[t.priority],marginTop:2 }}>● {t.priority}</div>
                 </div>
               ))}
             </div>
-            <button onClick={()=>setDepModal(null)} style={{ marginTop:14,width:"100%",padding:10,border:"1px solid #2A2A3A",borderRadius:10,background:"transparent",color:"#9CA3AF",cursor:"pointer",fontFamily:"inherit",fontWeight:600 }}>Cancel</button>
+            <button onClick={()=>setDepModal(null)} style={{ marginTop:14,width:"100%",padding:10,border:"1px solid #2A2A3A",borderRadius:10,background:"transparent",color:"var(--text2)",cursor:"pointer",fontFamily:"inherit",fontWeight:600 }}>Cancel</button>
           </div>
         </div>
       )}
