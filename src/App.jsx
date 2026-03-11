@@ -173,7 +173,7 @@ export default function App() {
         )}
 
         {/* Page content */}
-        <div style={{ flex: 1, overflowY: fullPage ? "hidden" : "auto", padding: fullPage ? "0" : "20px 22px", opacity: pageTransition ? 0 : 1, transition: "opacity 0.08s ease", height: fullPage ? "100%" : undefined }}>
+        <div style={{ flex: 1, overflowY: "auto", padding: fullPage ? "0" : "20px 22px", opacity: pageTransition ? 0 : 1, transition: "opacity 0.08s ease", display: "flex", flexDirection: "column", minHeight: 0 }}>
           {page === "dashboard"   && <Dashboard tasks={tasks} habits={habits} projects={projects} goals={goals} />}
           {page === "tasks"       && <TasksPage tasks={tasks} projects={projects} loading={dataLoading} />}
           {page === "habits"      && <HabitsPage habits={habits} loading={dataLoading} />}

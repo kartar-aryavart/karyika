@@ -1109,9 +1109,9 @@ export default function NotionPage() {
       return (a.title||"").localeCompare(b.title||"");
     });
 
-  // Full-screen editor
+  // Editor — inside app layout (no fixed, keeps theme working)
   if (activePage) return (
-    <div style={{ position:"fixed", inset:0, zIndex:1000, background:"var(--bg)" }}>
+    <div style={{ height:"calc(100vh - 56px)", display:"flex", flexDirection:"column" }}>
       <PageEditor page={activePage} onUpdate={updatePage} onClose={() => setActivePage(null)} allPages={pages}
         onNavigatePage={id => { const p = pages.find(x => x.id === id); if (p) setActivePage(p); }} />
     </div>
