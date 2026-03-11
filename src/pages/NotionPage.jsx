@@ -152,7 +152,7 @@ function DatabaseBlock({ block, onUpdate }) {
                   ))}
                   <td style={{padding:"6px 8px",display:"flex",gap:4}}>
                     <button onClick={addRow} style={{background:"rgba(16,185,129,0.15)",border:"none",borderRadius:5,color:"#10B981",cursor:"pointer",fontSize:12,padding:"2px 7px",fontFamily:"inherit",fontWeight:700}}>✓</button>
-                    <button onClick={()=>setAddingRow(false)} style={{background:"transparent",border:"none",color:"var(--text3)",cursor:"pointer",fontSize:14"}}>×</button>
+                    <button onClick={()=>setAddingRow(false)} style={{background:"transparent",border:"none",color:"#6B7280",cursor:"pointer",fontSize:14}}>×</button>
                   </td>
                 </tr>
               )}

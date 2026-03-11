@@ -362,7 +362,7 @@ function KanbanView({ tasks, statuses, onEdit, onStatusChange, onToggle }) {
                   style={{background:"#13131F",border:"1px solid rgba(255,255,255,0.06)",borderLeft:`3px solid ${PRI_COLOR[task.priority]||"#6B7280"}`,borderRadius:11,padding:"11px 13px",cursor:"pointer",transition:"all 0.15s",opacity:dragging?.id===task.id?0.4:1}}
                   onMouseEnter={e=>{e.currentTarget.style.background="#1A1A2E";e.currentTarget.style.borderColor="rgba(255,255,255,0.1)";}}
                   onMouseLeave={e=>{e.currentTarget.style.background="#13131F";e.currentTarget.style.borderColor="rgba(255,255,255,0.06)";}}>
-                  {task.coverColor&&<div style={{height:3,borderRadius:3,background:task.coverColor,marginBottom:8,marginLeft:-13,marginRight:-13,marginTop:-11,borderRadius:"9px 9px 0 0"}}/>}
+                  {task.coverColor&&<div style={{height:3,borderRadius:"9px 9px 0 0",background:task.coverColor,marginBottom:8,marginLeft:-13,marginRight:-13,marginTop:-11}}/>}
                   <div style={{fontSize:13,fontWeight:600,color:task.done?"#6B7280":"#E5E7EB",textDecoration:task.done?"line-through":"none",marginBottom:8,lineHeight:1.4}}>{task.title}</div>
                   <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:task.subtasks?.length?8:0}}>
                     {(task.tags||[]).slice(0,2).map(tag=><span key={tag} style={{fontSize:10,padding:"1px 7px",background:"rgba(255,107,53,0.08)",color:"#FF8C5A",borderRadius:10}}>#{tag}</span>)}
