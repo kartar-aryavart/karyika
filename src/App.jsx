@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth } from "./hooks/useAuth";
 import { subscribeToTasks, subscribeToHabits, subscribeToNotes, subscribeToProjects, subscribeToGoals, checkIsAdmin, addNotification, tsToMs } from "./firebase/services";
 import { playSound } from "./components/NotificationBell";
+import ProfileSetupPage from "./pages/ProfileSetupPage";
 import { useLang } from "./i18n/translations.jsx";
 import AuthPage from "./pages/AuthPage";
 import LandingPage from "./pages/LandingPage";
@@ -129,6 +130,18 @@ export default function App() {
   );
 
   // Auth page
+  // Show profile setup for new users
+  if (user && !onboarded) return (
+    <ProfileSetupPage onComplete={(profileData) => {
+      localStorage.setItem("karyika-onboarded", "true");
+      if (profileData.theme) {
+        document.documentElement.setAttribute("data-theme", profileData.theme);
+        localStorage.setItem("karyika-theme", profileData.theme);
+      }
+      setOnboarded(true);
+    }} />
+  );
+
   if (!user) return (
     <>
       <AuthPage />

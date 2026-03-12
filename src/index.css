@@ -1,5 +1,21 @@
 /* 🎨 Karyika CSS v7 — Proper Light + Dark, all components */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800;900&display=swap');
+/* Self-hosted fonts (public/fonts/) + Google Fonts fallback */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('/fonts/inter-variable.woff2') format('woff2'),
+       url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('/fonts/manrope-variable.woff2') format('woff2'),
+       url('https://fonts.gstatic.com/s/manrope/v15/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk7PFO_A87jxeN7B.woff2') format('woff2');
+}
 
 :root {
   --font-head: 'Manrope', 'Inter', -apple-system, system-ui, sans-serif;

@@ -48,7 +48,10 @@ export const deleteTask = (uid, taskId) =>
 
 export const subscribeToTasks = (uid, callback) => {
   const q = query(userCol(uid,"tasks"), orderBy("createdAt","desc"));
-  return onSnapshot(q, snap => callback(snap.docs.map(d=>({id:d.id,...d.data()}))));
+  return onSnapshot(q,
+    snap => callback(snap.docs.map(d => ({ id:d.id, ...d.data() }))),
+    err => { console.error("Tasks sync error:", err); callback([]); }
+  );
 };
 
 export const toggleSubtask = async (uid, taskId, subtaskId) => {
@@ -101,7 +104,7 @@ export const addHabit = (uid, habit) =>
   addDoc(userCol(uid,"habits"),{name:"",emoji:"✨",color:"#FF6B35",frequency:"daily",streak:0,logs:{},...habit,createdAt:serverTimestamp()});
 export const updateHabit = (uid,id,d) => updateDoc(doc(db,"users",uid,"habits",id),d);
 export const deleteHabit = (uid,id) => deleteDoc(doc(db,"users",uid,"habits",id));
-export const subscribeToHabits = (uid,cb) => onSnapshot(query(userCol(uid,"habits"),orderBy("createdAt","desc")),snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()}))));
+export const subscribeToHabits = (uid, cb) => onSnapshot(query(userCol(uid,"habits"),orderBy("createdAt","desc")), snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()}))), err=>{console.error("Habits sync:",err);cb([]);});
 
 export const toggleHabit = async (uid, habitId, dateStr) => {
   const ref = doc(db,"users",uid,"habits",habitId);
@@ -123,21 +126,21 @@ export const addNote = (uid,note) =>
   addDoc(userCol(uid,"notes"),{title:"Untitled",blocks:[],tags:[],color:"default",isPinned:false,isArchived:false,coverImage:"",...note,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
 export const updateNote = (uid,id,d) => updateDoc(doc(db,"users",uid,"notes",id),{...d,updatedAt:serverTimestamp()});
 export const deleteNote = (uid,id) => deleteDoc(doc(db,"users",uid,"notes",id));
-export const subscribeToNotes = (uid,cb) => onSnapshot(query(userCol(uid,"notes"),orderBy("updatedAt","desc")),snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()}))));
+export const subscribeToNotes = (uid, cb) => onSnapshot(query(userCol(uid,"notes"),orderBy("updatedAt","desc")), snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()}))), err=>{console.error("Notes sync:",err);cb([]);});
 
 // ─── PROJECTS v3 ───────────────────────────────────────────────────────────
 export const addProject = (uid,p) =>
   addDoc(userCol(uid,"projects"),{name:"",emoji:"📁",color:"#FF6B35",status:"active",description:"",members:[],lists:[],customStatuses:["todo","in-progress","review","done"],...p,createdAt:serverTimestamp()});
 export const updateProject = (uid,id,d) => updateDoc(doc(db,"users",uid,"projects",id),d);
 export const deleteProject = (uid,id) => deleteDoc(doc(db,"users",uid,"projects",id));
-export const subscribeToProjects = (uid,cb) => onSnapshot(query(userCol(uid,"projects"),orderBy("createdAt","desc")),snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()}))));
+export const subscribeToProjects = (uid,cb) => onSnapshot(query(userCol(uid,"projects"),orderBy("createdAt","desc")),snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()}))), err=>{console.error("subscribeToProjects sync:",err);cb([]);});
 
 // ─── GOALS v2 ──────────────────────────────────────────────────────────────
 export const addGoal = (uid,g) =>
   addDoc(userCol(uid,"goals"),{title:"",description:"",target:100,current:0,unit:"%",color:"#FF6B35",category:"personal",keyResults:[],...g,createdAt:serverTimestamp()});
 export const updateGoal = (uid,id,d) => updateDoc(doc(db,"users",uid,"goals",id),d);
 export const deleteGoal = (uid,id) => deleteDoc(doc(db,"users",uid,"goals",id));
-export const subscribeToGoals = (uid,cb) => onSnapshot(query(userCol(uid,"goals"),orderBy("createdAt","desc")),snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()}))));
+export const subscribeToGoals = (uid,cb) => onSnapshot(query(userCol(uid,"goals"),orderBy("createdAt","desc")),snap=>cb(snap.docs.map(d=>({id:d.id,...d.data()}))), err=>{console.error("subscribeToGoals sync:",err);cb([]);});
 
 // ─── AUTOMATIONS ───────────────────────────────────────────────────────────
 export const addAutomation = (uid,a) =>
