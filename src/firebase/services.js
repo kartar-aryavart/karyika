@@ -6,6 +6,22 @@ import {
 } from "firebase/firestore";
 import { db } from "./config";
 
+// ─── TIMESTAMP HELPER ──────────────────────────────────────────────────────
+export const tsToMs = (val) => {
+  if (!val) return 0;
+  if (typeof val === "string") return new Date(val).getTime();
+  if (val.toDate) return val.toDate().getTime();
+  if (val.seconds) return val.seconds * 1000;
+  return 0;
+};
+export const tsToStr = (val) => {
+  if (!val) return "";
+  const ms = typeof val === "string" ? new Date(val).getTime() : val.toDate ? val.toDate().getTime() : (val.seconds||0)*1000;
+  return ms ? new Date(ms).toLocaleDateString("en-IN",{month:"short",day:"numeric",year:"numeric"}) : "";
+};
+
+
+
 const userCol  = (uid, col) => collection(db, "users", uid, col);
 const globalCol = (col) => collection(db, col);
 

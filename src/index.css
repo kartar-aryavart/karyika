@@ -1,9 +1,9 @@
 /* 🎨 Karyika CSS v7 — Proper Light + Dark, all components */
-@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,600&f[]=satoshi@700,600,500,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  --font-head: 'Cabinet Grotesk', -apple-system, system-ui, sans-serif;
-  --font-body: 'Satoshi', -apple-system, system-ui, sans-serif;
+  --font-head: 'Manrope', 'Inter', -apple-system, system-ui, sans-serif;
+  --font-body: 'Inter', -apple-system, system-ui, sans-serif;
   --t: 0.18s ease;
   --radius: 12px;
   --radius-lg: 18px;
