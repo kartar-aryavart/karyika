@@ -760,7 +760,7 @@ function KanbanView({ tasks, onEdit, onStatusChange, onToggle }) {
 }
 
 // ─── TABLE VIEW ───────────────────────────────────────────────────────────────
-function TableView({ tasks, onEdit, onToggle, onDelete }) {
+function TableView({ tasks, onEdit, onInlineSave, onToggle, onDelete }) {
   const [editCell, setEditCell] = useState(null); // { taskId, field }
 
   const COLS = [
@@ -1444,6 +1444,19 @@ export default function TasksPage({ tasks = [], projects = [], loading }) {
     await deleteTask(user.uid, id);
   }
 
+  async function handleDuplicate(task) {
+    if (!user) return;
+    const { id, createdAt, updatedAt, ...data } = task;
+    await addTask(user.uid, { ...data, title:"Copy of " + (task.title||"Task"), done:false, status:"inbox" });
+  }
+
+  async function handleInlineSave(form, isInline) {
+    if (!user) return;
+    const { id, ...data } = form;
+    await updateTask(user.uid, id, data);
+    if (!isInline) setActiveTask(null);
+  }
+
   async function handleStatusChange(task, status) {
     if (!user) return;
     await updateTask(user.uid, task.id, { status, done:status==="done", updatedAt:new Date().toISOString() });
@@ -1589,7 +1602,7 @@ export default function TasksPage({ tasks = [], projects = [], loading }) {
           {view==="kanban"   && <KanbanView tasks={filtered} onEdit={setActiveTask} onStatusChange={handleStatusChange} onToggle={handleToggle} />}
           {view==="calendar" && <CalendarView tasks={filtered} onEdit={setActiveTask} />}
           {view==="timeline" && <TimelineView tasks={filtered} onEdit={setActiveTask} />}
-          {view==="table"    && <TableView tasks={filtered} onEdit={setActiveTask} onToggle={handleToggle} onDelete={handleDelete} />}
+          {view==="table"    && <TableView tasks={filtered} onEdit={setActiveTask} onInlineSave={handleInlineSave} onToggle={handleToggle} onDelete={handleDelete} />}
           {view==="mytasks"  && <MyTasksView tasks={filtered} onEdit={setActiveTask} onToggle={handleToggle} />}
           {view==="inbox"    && <InboxView tasks={tasks} onEdit={setActiveTask} onToggle={handleToggle} onDelete={handleDelete} />}
         </>
