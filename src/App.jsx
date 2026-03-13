@@ -39,6 +39,7 @@ export default function App() {
   const { user, loading: authLoading } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
   const [page, setPage] = useState("dashboard");
+  const [onboarded, setOnboarded] = useState(() => localStorage.getItem("karyika-onboarded") === "true");
   const [dark, setDark] = useState(() => localStorage.getItem("karyika-dark") !== "false");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
