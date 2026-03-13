@@ -4,6 +4,7 @@
 // NLP · Bulk Actions · Drag-Drop · 20+ Filters · Templates · Activity Log
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { useAuth } from "../hooks/useAuth";
+import TaskDetail from "../components/TaskDetail";
 import { addTask, updateTask, deleteTask } from "../firebase/services";
 
 // ─── UTILS ────────────────────────────────────────────────────────────────────
@@ -1602,9 +1603,9 @@ export default function TasksPage({ tasks = [], projects = [], loading }) {
       {/* Filters panel */}
       {showFilters && <FiltersPanel filters={filters} setFilters={setFilters} projects={projects} allTags={allTags} onClose={() => setShowFilters(false)} />}
 
-      {/* Task drawer */}
+      {/* Task Detail — World Class */}
       {activeTask && (
-        <TaskDrawer task={activeTask} allTasks={tasks} projects={projects} onSave={handleSave} onDelete={handleDelete} onClose={() => setActiveTask(null)} />
+        <TaskDetail task={activeTask} allTasks={tasks} projects={projects} onSave={handleSave} onDelete={handleDelete} onDuplicate={handleDuplicate} onClose={() => setActiveTask(null)} />
       )}
 
       <style>{`
