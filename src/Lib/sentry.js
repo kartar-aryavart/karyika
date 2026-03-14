@@ -1,35 +1,16 @@
-// 🔍 Sentry Error Monitoring — Karyika
-// Safe version — build passes even without @sentry/react installed
+// 🔍 Sentry Error Monitoring — Karyika (Static import version)
+import * as Sentry from "@sentry/react";
 
 const DSN = import.meta.env.VITE_SENTRY_DSN;
 
-let _sentry = null;
-
-// Lazy load Sentry only if DSN is set
-async function getSentry() {
-  if (!DSN) return null;
-  if (_sentry) return _sentry;
-  try {
-    _sentry = await import("@sentry/react");
-    return _sentry;
-  } catch {
-    return null;
-  }
-}
-
-export async function initSentry() {
-  if (!DSN) {
-    console.log("ℹ️ Sentry DSN not set — skipping");
-    return;
-  }
-  const Sentry = await getSentry();
-  if (!Sentry) return;
+export function initSentry() {
+  if (!DSN) { console.log("ℹ️ Sentry DSN not set"); return; }
 
   Sentry.init({
     dsn: DSN,
     environment: import.meta.env.MODE,
     release: "karyika@" + (import.meta.env.VITE_APP_VERSION || "1.0.0"),
-    tracesSampleRate: import.meta.env.PROD ? 0.2 : 1.0,
+    tracesSampleRate: 0.2,
     replaysOnErrorSampleRate: 1.0,
     integrations: [
       Sentry.browserTracingIntegration(),
@@ -37,34 +18,27 @@ export async function initSentry() {
     ],
     ignoreErrors: [
       "ResizeObserver loop limit exceeded",
-      "Non-Error promise rejection",
       /^Loading chunk/,
     ],
-    beforeSend(event, hint) {
-      if (import.meta.env.DEV) {
-        console.group("🔍 Sentry (dev)");
-        console.error(hint?.originalException || event);
-        console.groupEnd();
-        return null; // Don't send in dev
-      }
+    beforeSend(event) {
+      // Dev mein console mein dikhao, Sentry ko mat bhejo
+      if (import.meta.env.DEV) return null;
       return event;
     },
   });
-  console.log("✅ Sentry active");
+  console.log("✅ Sentry active —", import.meta.env.MODE);
 }
 
-export async function captureError(error, context = {}) {
-  const Sentry = await getSentry();
-  if (!Sentry) return;
+export function captureError(error, context = {}) {
+  if (!DSN) return;
   Sentry.withScope(scope => {
     Object.entries(context).forEach(([k, v]) => scope.setExtra(k, v));
     Sentry.captureException(error);
   });
 }
 
-export async function setUser(user) {
-  const Sentry = await getSentry();
-  if (!Sentry) return;
+export function setUser(user) {
+  if (!DSN) return;
   if (user) Sentry.setUser({ id: user.uid, email: user.email });
   else Sentry.setUser(null);
 }
