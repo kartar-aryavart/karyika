@@ -1,4 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import { initSentry, setUser as setSentryUser, captureError } from "./lib/sentry";
+
+// Init Sentry on app start
+initSentry();
 import { useAuth } from "./hooks/useAuth";
 import { subscribeToTasks, subscribeToHabits, subscribeToNotes, subscribeToProjects, subscribeToGoals, checkIsAdmin, addNotification, tsToMs } from "./firebase/services";
 import { playSound } from "./components/NotificationBell";
@@ -60,7 +64,8 @@ export default function App() {
   }, [dark]);
 
   useEffect(() => {
-    if (!user) { setTasks([]); setHabits([]); setNotes([]); setProjects([]); setGoals([]); setDataLoading(false); return; }
+    if (!user) { setSentryUser(null); setTasks([]); setHabits([]); setNotes([]); setProjects([]); setGoals([]); setDataLoading(false); return; }
+    setSentryUser(user);
     setDataLoading(true);
     const u1 = subscribeToTasks(user.uid, d => {
       // Detect task completion
