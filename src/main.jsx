@@ -1,3 +1,13 @@
+import { initSentry, setUser } from "./lib/sentry";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+// Init Sentry FIRST before anything else
+initSentry();
+
+// Track auth state for Sentry user context
+const auth = getAuth();
+onAuthStateChanged(auth, user => setUser(user));
+
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
