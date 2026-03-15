@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { initSentry, setUser as setSentryUser, captureError } from "./lib/sentry";
-
-// Init Sentry on app start
+// Sentry — optional, loads only if available
+const initSentry = () => import("./lib/sentry").then(m => m.initSentry()).catch(() => {});
+const setSentryUser = (u) => import("./lib/sentry").then(m => m.setUser(u)).catch(() => {});
 initSentry();
 import { useAuth } from "./hooks/useAuth";
 import { subscribeToTasks, subscribeToHabits, subscribeToNotes, subscribeToProjects, subscribeToGoals, checkIsAdmin, addNotification, tsToMs } from "./firebase/services";
